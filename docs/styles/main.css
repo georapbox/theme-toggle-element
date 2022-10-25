@@ -1,4 +1,4 @@
-html[data-theme="dark"] {
+:root[data-theme="dark"] {
   --background-body: #202b38;
   --background: #161f27;
   --background-alt: #1a242f;
@@ -23,10 +23,47 @@ html[data-theme="dark"] {
   --select-arrow: svg-load('./assets/select-arrow.svg', fill: #efefef);
 }
 
-#console:empty {
-  display: none;
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 theme-toggle:not(:defined) {
   display: none;
+}
+
+theme-toggle {
+  --icon-light-color: #1d1d1d;
+  --text-light-color: #1d1d1d;
+  --icon-dark-color: #efdb43;
+  --text-dark-color: #efdb43;
+}
+
+theme-toggle::part(theme-toggle) {
+  gap: 1rem;
+  border: 0;
+  background-color: var(--button-base);
+  border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  cursor: pointer;
+}
+
+theme-toggle::part(theme-toggle):hover {
+  background-color: var(--button-hover);
+}
+
+theme-toggle::part(theme-toggle__icon) {
+  width: 30px;
+  height: 30px;
+}
+
+theme-toggle::part(theme-toggle__text) {
+  font-size: 1.8rem;
 }

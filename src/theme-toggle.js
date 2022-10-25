@@ -50,7 +50,7 @@ template.innerHTML = /* html */`
       </slot>
 
       <slot name="text-light">
-        <span part="theme-toggle__text theme-toggle__text--light" class="theme-toggle__text theme-toggle__text--light">Light</span>
+        <span part="theme-toggle__text theme-toggle__text--light" class="theme-toggle__text theme-toggle__text--light">Light theme</span>
       </slot>
     </slot>
 
@@ -62,7 +62,7 @@ template.innerHTML = /* html */`
       </slot>
 
       <slot name="text-dark">
-        <span part="text text--dark" class="theme-toggle__text theme-toggle__text--dark">Dark</span>
+        <span part="theme-toggle__text theme-toggle__text--dark" class="theme-toggle__text theme-toggle__text--dark">Dark theme</span>
       </slot>
     </slot>
   </button>

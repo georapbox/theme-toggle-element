@@ -18,11 +18,88 @@
 
   <h2>Demo</h2>
 
-  <theme-toggle fromstorage></theme-toggle>
+  <theme-toggle></theme-toggle>
 
-  <pre><code id="console"></code></pre>
+  <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem">
+    <div>
+      <input id="show-icon-text" type="radio" name="show" value="icon+text" checked>
+      <label for="show-icon-text">Show icon+text</label>
+    </div>
+
+    <div>
+      <input id="show-icon" type="radio" name="show" value="icon">
+      <label for="show-icon">Show only icon</label>
+    </div>
+
+    <div>
+      <input id="show-text" type="radio" name="show" value="text">
+      <label for="show-text">Show only text</label>
+    </div>
+  </div>
 
   <h2>Source</h2>
+
+  <h3>HTML</h3>
+
+<pre><code id="html-source" class="language-html"></code></pre>
+
+  <h3>CSS</h3>
+
+<pre><code class="language-css">:root {
+  --button-base: #d0cfcf;
+  --button-hover: #9b9b9b;
+}
+
+:root[data-theme="dark"] {
+  --button-base: #0c151c;
+  --button-hover: #040a0f;
+}
+
+theme-toggle:not(:defined) {
+  display: none;
+}
+
+theme-toggle {
+  --icon-light-color: #1d1d1d;
+  --text-light-color: #1d1d1d;
+  --icon-dark-color: #efdb43;
+  --text-dark-color: #efdb43;
+}
+
+theme-toggle::part(theme-toggle) {
+  gap: 1rem;
+  border: 0;
+  background-color: var(--button-base);
+  border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  cursor: pointer;
+}
+
+theme-toggle::part(theme-toggle):hover {
+  background-color: var(--button-hover);
+}
+
+theme-toggle::part(theme-toggle__icon) {
+  width: 30px;
+  height: 30px;
+}
+
+theme-toggle::part(theme-toggle__text) {
+  font-size: 1.8rem;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+</code></pre>
 
   <p>
     Source code and documentation can be found in <a href="https://github.com/georapbox/theme-toggle-element" target="_blank" rel="noreferrer noopener">Github repository</a>.
