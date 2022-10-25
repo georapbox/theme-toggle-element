@@ -11,7 +11,7 @@ A custom element that allows you to toggle between dark and light theme.
 
 ## How it works
 
-By default, if no specific theme is set, it determines the theme from user's system preferences using the `prefers-color-scheme` media query and registers to listen for changes. When the theme is changed, either by setting the `theme` attribute to the component or by changing the user's system preferences, the selected theme is saved in `localStorage` to be remembered in the future if `persist-preference` attribute is set. A `data-theme` attibute is added to the `html` element of the document, with the appropriate value (light or dark). The attribute's name can be overriden by setting the `global-attr` attribute to the component.
+By default, the component determines the theme from user's system preferences using the `prefers-color-scheme` media query and registers to listen for changes. When the theme is changed, either by clicking the toggle button or by changing the user's system preferences, the selected theme is saved in `localStorage` to be used in the future if `fromstorage` attribute is set. A `data-theme` attibute is added to the `html` element of the document, with the appropriate value (light or dark).
 
 [API documentation](#api) &bull; [Demo][demo]
 
@@ -41,7 +41,7 @@ import './node_modules/@georapbox/theme-toggle-element/dist/theme-toggle-defined
 ### Markup
 
 ```html
-<theme-toggle></theme-toggle>
+<theme-toggle toggletitle="Toggle light & dark theme" fromstorage></theme-toggle>
 ```
 
 ### Style
@@ -54,12 +54,8 @@ The component comes with bare minimum styling by default to give more flexibilit
 
 | Name | Reflects | Type | Description |
 | ---- | -------- | ---- | ----------- |
-| `theme` | ✓ | String | Optional. The theme value to be set. Valid values are "light" or "dark". If omitted, it will be set according to system preferences. |
-| `persistPreference`<br>*`persist-preference`* | ✓ | Boolean | Optional. If set, it will persist the preference in `localStorage` to use it in future. If it is not set but the preference is already saved in storage from a previous usage, the saved value will just be ignored. |
-| `toggleTitle`<br>*`toggle-title`* | ✓ | String | Optional. The `title` attribute of the the toggle button. If omitted, the button's title is "Toggles theme between light & dark". |
-| `globalAttr`<br>*`global-attr`* | ✓ | String | Optional. The attribute to be set to the `html` element of the document. If omitted, the attibute added is "data-theme". |
-
-All of the above properties reflect their values as HTML attributes to keep the element's DOM representation in sync with its JavaScript state.
+| `fromStorage`<br>*`fromstorage`* | ✓ | Boolean | Optional. Determines if the component will use any saved preference from storage when initialized. |
+| `toggleTitle`<br>*`toggletitle`* | ✓ | String | Optional. The `title` attribute of the the toggle button. If omitted, the button's title is "Toggles theme between light & dark". |
 
 ### Slots
 
@@ -86,12 +82,12 @@ All of the above properties reflect their values as HTML attributes to keep the 
 
 ### CSS Custom Properties
 
-| Name | Description |
-| ---- | ----------- |
-| `--icon-light-color` | The color of the icon when theme is light. |
-| `--icon-dark-color` | The color of the icon when theme is dark. |
-| `--text-light-color` | The color of the text when theme is light. |
-| `--text-dark-color` | The color of the text when theme is dark. |
+| Name | Default | Description |
+| ---- | ------- | ----------- |
+| `--icon-light-color` | `currentColor` | The color of the icon when theme is light. |
+| `--icon-dark-color` | `currentColor` | The color of the icon when theme is dark. |
+| `--text-light-color` | `currentColor` | The color of the text when theme is light. |
+| `--text-dark-color` | `currentColor` | The color of the text when theme is dark. |
 
 ### Events
 
