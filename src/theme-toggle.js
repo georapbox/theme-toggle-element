@@ -84,12 +84,20 @@ class ThemeToggle extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['theme', 'toggle-title', 'global-attr'];
+    return ['theme', 'persist-preference', 'toggle-title', 'global-attr'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'theme' && oldValue !== newValue) {
       this.#setThemePreference();
+    }
+
+    if (name === 'persist-preference' && oldValue !== newValue) {
+      try {
+        this.persistPreference && window.localStorage.setItem(storageKey, this.theme);
+      } catch {
+        // Fail silently...
+      }
     }
 
     if (name === 'toggle-title' && oldValue !== newValue) {
@@ -108,6 +116,18 @@ class ThemeToggle extends HTMLElement {
 
   set theme(value) {
     this.setAttribute('theme', isValidTheme(value) ? value : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }
+
+  get persistPreference() {
+    return this.hasAttribute('persist-preference');
+  }
+
+  set persistPreference(value) {
+    if (value) {
+      this.setAttribute('persist-preference', value);
+    } else {
+      this.removeAttribute('persist-preference');
+    }
   }
 
   get toggleTitle() {
@@ -131,6 +151,7 @@ class ThemeToggle extends HTMLElement {
     this.shadowRoot.getElementById('theme-toggle').addEventListener('click', this.#onToggleClick);
 
     this.#upgradeProperty('theme');
+    this.#upgradeProperty('persistPreference');
     this.#upgradeProperty('toggleTitle');
     this.#upgradeProperty('globalAttr');
   }
@@ -144,7 +165,9 @@ class ThemeToggle extends HTMLElement {
     let valueFromStorage;
 
     try {
-      valueFromStorage = window.localStorage.getItem(storageKey);
+      if (this.persistPreference) {
+        valueFromStorage = window.localStorage.getItem(storageKey);
+      }
     } catch {
       // Fail silently...
     }
@@ -156,7 +179,9 @@ class ThemeToggle extends HTMLElement {
 
   #setThemePreference() {
     try {
-      window.localStorage.setItem(storageKey, this.theme);
+      if (this.persistPreference) {
+        window.localStorage.setItem(storageKey, this.theme);
+      }
     } catch {
       // Fail silently...
     }
