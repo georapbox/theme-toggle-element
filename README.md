@@ -52,10 +52,10 @@ The component comes with bare minimum styling by default to give more flexibilit
 
 ### Properties
 
-| Name | Reflects | Type | Description |
-| ---- | -------- | ---- | ----------- |
-| `fromStorage`<br>*`fromstorage`* | ✓ | Boolean | Optional. Determines if the component will use any saved preference from storage when initialized. |
-| `toggleTitle`<br>*`toggletitle`* | ✓ | String | Optional. The `title` attribute of the the toggle button. If omitted, the button's title is "Toggles theme between light & dark". |
+| Name | Reflects | Type | Required | Description |
+| ---- | -------- | ---- | -------- |----------- |
+| `fromStorage`<br>*`fromstorage`* | ✓ | Boolean | - | Determines if the component will use any saved preference from storage when initialized. |
+| `toggleTitle`<br>*`toggletitle`* | ✓ | String | - | The `title` attribute of the the toggle button. If omitted, the button's title is "Toggles theme between light & dark". |
 
 ### Slots
 

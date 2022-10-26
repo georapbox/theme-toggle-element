@@ -52,6 +52,7 @@ theme-toggle::part(theme-toggle) {
   background-color: var(--button-base);
   border-radius: 0.5rem;
   padding: 1rem 2rem;
+  line-height: 1;
   cursor: pointer;
 }
 
@@ -60,8 +61,8 @@ theme-toggle::part(theme-toggle):hover {
 }
 
 theme-toggle::part(theme-toggle__icon) {
-  width: 30px;
-  height: 30px;
+  width: 29px;
+  height: 29px;
 }
 
 theme-toggle::part(theme-toggle__text) {

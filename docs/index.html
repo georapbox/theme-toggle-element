@@ -20,10 +20,10 @@
 
   <theme-toggle></theme-toggle>
 
-  <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem">
+  <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem">
     <div>
       <input id="show-icon-text" type="radio" name="show" value="icon+text" checked>
-      <label for="show-icon-text">Show icon+text</label>
+      <label for="show-icon-text">Show icon & text</label>
     </div>
 
     <div>
@@ -72,6 +72,7 @@ theme-toggle::part(theme-toggle) {
   background-color: var(--button-base);
   border-radius: 0.5rem;
   padding: 1rem 2rem;
+  line-height: 1;
   cursor: pointer;
 }
 

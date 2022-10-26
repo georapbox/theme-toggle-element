@@ -39,7 +39,7 @@
   "homepage": "https://github.com/georapbox/theme-toggle-element#readme",
   "devDependencies": {
     "@esm-bundle/chai": "~4.3.4-fix.0",
-    "@open-wc/testing": "~3.1.2",
+    "@open-wc/testing": "~3.1.6",
     "@web/test-runner": "~0.15.0",
     "@web/test-runner-playwright": "~0.9.0",
     "eslint": "~8.26.0",

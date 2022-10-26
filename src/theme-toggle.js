@@ -1,5 +1,6 @@
 const storagePrefix = 'theme-toggle/';
 const storageKey = `${storagePrefix}theme-preference`;
+const ROOT_ATTR = 'data-theme';
 
 const template = document.createElement('template');
 
@@ -86,7 +87,6 @@ class ThemeToggle extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'toggletitle' && oldValue !== newValue) {
-      console.log(this.shadowRoot.getElementById('theme-toggle'));
       this.shadowRoot.getElementById('theme-toggle').title = this.toggleTitle;
     }
   }
@@ -97,7 +97,7 @@ class ThemeToggle extends HTMLElement {
 
   set fromStorage(value) {
     if (value) {
-      this.setAttribute('fromstorage', value);
+      this.setAttribute('fromstorage', '');
     } else {
       this.removeAttribute('fromstorage');
     }
@@ -152,13 +152,13 @@ class ThemeToggle extends HTMLElement {
   #reflectThemePreference() {
     const toggleBtn = this.shadowRoot.getElementById('theme-toggle');
 
-    document.documentElement.setAttribute('data-theme', this.#theme);
-
     toggleBtn.setAttribute('aria-label', this.#theme);
 
     toggleBtn.querySelectorAll('slot[name="content-light"], slot[name="content-dark"]').forEach(el => {
       el.hidden = !el.name.includes(this.#theme);
     });
+
+    document.documentElement.setAttribute(ROOT_ATTR, this.#theme);
   }
 
   #dispatchChangeEvent() {
