@@ -13,20 +13,20 @@ describe('<theme-toggle>', () => {
     const el = await fixture(html`<theme-toggle></theme-toggle>`);
 
     expect(el.fromStorage).to.be.false;
-    expect(el.getAttribute('fromstorage')).to.be.null;
+    expect(el.getAttribute('from-storage')).to.be.null;
 
     expect(el.toggleTitle).to.be.null;
-    expect(el.getAttribute('toggletitle')).to.be.null;
+    expect(el.getAttribute('toggle-title')).to.be.null;
   });
 
   it('change default properties', async () => {
-    const el = await fixture(html`<theme-toggle fromStorage toggletitle="Toggle theme"></theme-toggle>`);
+    const el = await fixture(html`<theme-toggle from-storage toggle-title="Toggle theme"></theme-toggle>`);
 
     expect(el.fromStorage).to.be.true;
-    expect(el.getAttribute('fromstorage')).to.equal('');
+    expect(el.getAttribute('from-storage')).to.equal('');
 
     expect(el.toggleTitle).to.equal('Toggle theme');
-    expect(el.getAttribute('toggletitle')).to.equal('Toggle theme');
+    expect(el.getAttribute('toggle-title')).to.equal('Toggle theme');
   });
 
   it('change properties programmatically', async () => {
@@ -38,15 +38,15 @@ describe('<theme-toggle>', () => {
     await elementUpdated(el);
 
     expect(el.fromStorage).to.be.true;
-    expect(el.getAttribute('fromstorage')).to.equal('');
+    expect(el.getAttribute('from-storage')).to.equal('');
 
     expect(el.toggleTitle).to.equal('Toggle theme');
-    expect(el.getAttribute('toggletitle')).to.equal('Toggle theme');
+    expect(el.getAttribute('toggle-title')).to.equal('Toggle theme');
 
     el.fromStorage = false;
 
     expect(el.fromStorage).to.be.false;
-    expect(el.getAttribute('fromstorage')).to.be.null;
+    expect(el.getAttribute('from-storage')).to.be.null;
   });
 
   it('adds "data-theme" attribute to root element of document', async () => {
@@ -95,7 +95,7 @@ describe('<theme-toggle>', () => {
   });
 
   it('changes toggle button title', async () => {
-    const el = await fixture(html`<theme-toggle toggletitle="Toggle theme"></theme-toggle>`);
+    const el = await fixture(html`<theme-toggle toggle-title="Toggle theme"></theme-toggle>`);
     const button = el.shadowRoot.getElementById('theme-toggle');
 
     expect(button).to.have.attribute('title', 'Toggle theme');

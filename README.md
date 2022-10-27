@@ -11,7 +11,7 @@ A custom element that allows you to toggle between dark and light theme.
 
 ## How it works
 
-By default, the component determines the theme from user's system preferences using the `prefers-color-scheme` media query and registers to listen for changes. When the theme is changed, either by clicking the toggle button or by changing the user's system preferences, the selected theme is saved in `localStorage` to be used in the future if `fromstorage` attribute is set. A `data-theme` attibute is added to the root element of the document, with the appropriate value (light or dark).
+By default, the component determines the theme from user's system preferences using the `prefers-color-scheme` media query and registers to listen for changes. When the theme is changed, either by clicking the toggle button or by changing the user's system preferences, the selected theme is saved in `localStorage` to be used in the future if `from-storage` attribute is set. A `data-theme` attibute is added to the root element of the document, with the appropriate value (light or dark).
 
 [API documentation](#api) &bull; [Demo][demo]
 
@@ -41,7 +41,7 @@ import './node_modules/@georapbox/theme-toggle-element/dist/theme-toggle-defined
 ### Markup
 
 ```html
-<theme-toggle toggletitle="Toggle light & dark theme" fromstorage></theme-toggle>
+<theme-toggle toggle-title="Toggle light & dark theme" from-storage></theme-toggle>
 ```
 
 ### Style
@@ -54,8 +54,8 @@ The component comes with bare minimum styling by default to give more flexibilit
 
 | Name | Reflects | Type | Required | Description |
 | ---- | -------- | ---- | -------- |----------- |
-| `fromStorage`<br>*`fromstorage`* | ✓ | Boolean | - | Determines if the component will use any saved preference from storage when initialized. |
-| `toggleTitle`<br>*`toggletitle`* | ✓ | String | - | The `title` attribute of the the toggle button. If omitted, the button's title is "Toggles theme between light & dark". |
+| `fromStorage`<br>*`from-storage`* | ✓ | Boolean | - | Determines if the component will use any saved preference from storage when initialized. |
+| `toggleTitle`<br>*`toggle-title`* | ✓ | String | - | The `title` attribute of the the toggle button. If omitted, the button's title is "Toggles theme between light & dark". |
 
 ### Slots
 

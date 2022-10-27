@@ -82,33 +82,33 @@ class ThemeToggle extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['toggletitle'];
+    return ['toggle-title'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'toggletitle' && oldValue !== newValue) {
+    if (name === 'toggle-title' && oldValue !== newValue) {
       this.shadowRoot.getElementById('theme-toggle').title = this.toggleTitle;
     }
   }
 
   get fromStorage() {
-    return this.hasAttribute('fromstorage');
+    return this.hasAttribute('from-storage');
   }
 
   set fromStorage(value) {
     if (value) {
-      this.setAttribute('fromstorage', '');
+      this.setAttribute('from-storage', '');
     } else {
-      this.removeAttribute('fromstorage');
+      this.removeAttribute('from-storage');
     }
   }
 
   get toggleTitle() {
-    return this.getAttribute('toggletitle');
+    return this.getAttribute('toggle-title');
   }
 
   set toggleTitle(value) {
-    this.setAttribute('toggletitle', value);
+    this.setAttribute('toggle-title', value);
   }
 
   connectedCallback() {
