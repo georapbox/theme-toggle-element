@@ -1,5 +1,5 @@
 const isLocalhost = window.location.href.includes('127.0.0.1') || window.location.href.includes('localhost');
-const componentUrl = isLocalhost ? '../../src/theme-toggle.js' : 'https://unpkg.com/@georapbox/theme-toggle-element/dist/theme-toggle.min.js';
+const componentUrl = isLocalhost ? '../../src/theme-toggle-defined.js' : 'https://unpkg.com/@georapbox/theme-toggle-element/dist/theme-toggle-defined.min.js';
 
 const withStyleCheckbox = document.getElementById('with-style');
 const radioEls = document.querySelectorAll('input[type="radio"]');
@@ -9,15 +9,12 @@ const sourceTemplate = (slot = '', classAttr = '') => `&lt;theme-toggle${classAt
 
 htmlSrcEl.innerHTML = sourceTemplate('', ' class="custom-styles"');
 
-import(componentUrl).then(res => {
-  const { ThemeToggle } = res;
+import(componentUrl).then(() => {
   const wc = document.querySelector('theme-toggle');
 
   document.addEventListener('theme-toggle:theme-change', evt => {
     console.log('theme-toggle:theme-change ->', evt.detail);
   });
-
-  ThemeToggle.defineCustomElement();
 
   const renderElement = (contentToShow, withCustomStyles = true) => {
     let slotTemplate = '';
