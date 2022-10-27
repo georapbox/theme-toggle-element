@@ -20,8 +20,8 @@
     "prepare": "npm-run-all clean lint test build"
   },
   "keywords": [
-    "custom element",
-    "web component",
+    "custom-elements",
+    "web-components",
     "theme-toggle"
   ],
   "author": {
