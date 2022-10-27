@@ -40,13 +40,18 @@ theme-toggle:not(:defined) {
 }
 
 theme-toggle {
+  display: block;
+  min-height: 62px;
+}
+
+theme-toggle.custom-styles {
   --icon-light-color: #1d1d1d;
   --text-light-color: #1d1d1d;
   --icon-dark-color: #efdb43;
   --text-dark-color: #efdb43;
 }
 
-theme-toggle::part(theme-toggle) {
+theme-toggle.custom-styles::part(theme-toggle) {
   gap: 1rem;
   border: 0;
   background-color: var(--button-base);
@@ -56,15 +61,15 @@ theme-toggle::part(theme-toggle) {
   cursor: pointer;
 }
 
-theme-toggle::part(theme-toggle):hover {
+theme-toggle.custom-styles::part(theme-toggle):hover {
   background-color: var(--button-hover);
 }
 
-theme-toggle::part(theme-toggle__icon) {
+theme-toggle.custom-styles::part(theme-toggle__icon) {
   width: 29px;
   height: 29px;
 }
 
-theme-toggle::part(theme-toggle__text) {
+theme-toggle.custom-styles::part(theme-toggle__text) {
   font-size: 1.8rem;
 }

@@ -18,23 +18,28 @@
 
   <h2>Demo</h2>
 
-  <theme-toggle></theme-toggle>
+  <theme-toggle class="custom-styles"></theme-toggle>
 
-  <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem">
+  <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-block: 1rem">
     <div>
-      <input id="show-icon-text" type="radio" name="show" value="icon+text" checked>
+      <input id="show-icon-text" type="radio" name="show" value="icon+text" autocomplete="off" checked>
       <label for="show-icon-text">Show icon & text</label>
     </div>
 
     <div>
-      <input id="show-icon" type="radio" name="show" value="icon">
+      <input id="show-icon" type="radio" name="show" value="icon" autocomplete="off">
       <label for="show-icon">Show only icon</label>
     </div>
 
     <div>
-      <input id="show-text" type="radio" name="show" value="text">
+      <input id="show-text" type="radio" name="show" value="text" autocomplete="off">
       <label for="show-text">Show only text</label>
     </div>
+  </div>
+
+  <div>
+    <input type="checkbox" id="with-style" name="with-style" autocomplete="off" checked>
+    <label for="with-style">With custom styles</label>
   </div>
 
   <h2>Source</h2>
@@ -59,14 +64,14 @@ theme-toggle:not(:defined) {
   display: none;
 }
 
-theme-toggle {
+theme-toggle.custom-styles {
   --icon-light-color: #1d1d1d;
   --text-light-color: #1d1d1d;
   --icon-dark-color: #efdb43;
   --text-dark-color: #efdb43;
 }
 
-theme-toggle::part(theme-toggle) {
+theme-toggle.custom-styles::part(theme-toggle) {
   gap: 1rem;
   border: 0;
   background-color: var(--button-base);
@@ -76,16 +81,16 @@ theme-toggle::part(theme-toggle) {
   cursor: pointer;
 }
 
-theme-toggle::part(theme-toggle):hover {
+theme-toggle.custom-styles::part(theme-toggle):hover {
   background-color: var(--button-hover);
 }
 
-theme-toggle::part(theme-toggle__icon) {
+theme-toggle.custom-styles::part(theme-toggle__icon) {
   width: 30px;
   height: 30px;
 }
 
-theme-toggle::part(theme-toggle__text) {
+theme-toggle.custom-styles::part(theme-toggle__text) {
   font-size: 1.8rem;
 }
 

@@ -1,11 +1,13 @@
 const isLocalhost = window.location.href.includes('127.0.0.1') || window.location.href.includes('localhost');
 const componentUrl = isLocalhost ? '../../src/theme-toggle.js' : 'https://unpkg.com/@georapbox/theme-toggle-element/dist/theme-toggle.min.js';
 
+const withStyleCheckbox = document.getElementById('with-style');
+const radioEls = document.querySelectorAll('input[type="radio"]');
 const htmlSrcEl = document.getElementById('html-source');
 
-const sourceTemplate = (slot = '') => `&lt;theme-toggle&gt;${slot}&lt;/theme-toggle&gt;`;
+const sourceTemplate = (slot = '', classAttr = '') => `&lt;theme-toggle${classAttr}&gt;${slot}&lt;/theme-toggle&gt;`;
 
-htmlSrcEl.innerHTML = sourceTemplate();
+htmlSrcEl.innerHTML = sourceTemplate('', ' class="custom-styles"');
 
 import(componentUrl).then(res => {
   const { ThemeToggle } = res;
@@ -17,37 +19,50 @@ import(componentUrl).then(res => {
 
   ThemeToggle.defineCustomElement();
 
-  document.querySelectorAll('input[type="radio"]').forEach(el => {
-    el.addEventListener('change', evt => {
-      const value = evt.target.value;
-      let slotTemplate = '';
+  const renderElement = (contentToShow, withCustomStyles = true) => {
+    let slotTemplate = '';
 
-      if (value === 'icon') {
-        slotTemplate = `\n  &lt;span slot="text-light" class="visually-hidden"&gt;Light theme&lt;/span&gt;\n  &lt;span slot="text-dark" class="visually-hidden"&gt;Dark theme&lt;/span&gt;\n`;
+    if (contentToShow === 'icon') {
+      slotTemplate = `\n  &lt;span slot="text-light" class="visually-hidden"&gt;Light theme&lt;/span&gt;\n  &lt;span slot="text-dark" class="visually-hidden"&gt;Dark theme&lt;/span&gt;\n`;
 
-        wc.innerHTML = `
+      wc.innerHTML = `
           <span slot="text-light" class="visually-hidden">Light theme</span>
           <span slot="text-dark" class="visually-hidden">Dark theme</span>
         `;
-      }
+    }
 
-      if (value === 'text') {
-        slotTemplate = `\n  &lt;span slot="icon-light" class="visually-hidden"&gt;&lt;/span&gt;\n  &lt;span slot="icon-dark" class="visually-hidden"&gt;&lt;/span&gt;\n`;
+    if (contentToShow === 'text') {
+      slotTemplate = `\n  &lt;span slot="icon-light" class="visually-hidden"&gt;&lt;/span&gt;\n  &lt;span slot="icon-dark" class="visually-hidden"&gt;&lt;/span&gt;\n`;
 
-        wc.innerHTML = `
+      wc.innerHTML = `
           <span slot="icon-light" class="visually-hidden"></span>
           <span slot="icon-dark" class="visually-hidden"></span>
         `;
-      }
+    }
 
-      if (value === 'icon+text') {
-        slotTemplate = '';
-        wc.innerHTML = '';
-      }
+    if (contentToShow === 'icon+text') {
+      slotTemplate = '';
+      wc.innerHTML = '';
+    }
 
-      htmlSrcEl.innerHTML = sourceTemplate(slotTemplate);
+    wc.classList.toggle('custom-styles', withCustomStyles);
 
-      window.hljs.highlightElement(htmlSrcEl);
+    htmlSrcEl.innerHTML = sourceTemplate(slotTemplate, withCustomStyles ? ' class="custom-styles"' : '');
+
+    window.hljs.highlightElement(htmlSrcEl);
+  };
+
+  radioEls.forEach(el => {
+    el.addEventListener('change', evt => {
+      const radioValue = evt.target.value;
+      const isCustomStylesChecked = withStyleCheckbox.checked;
+      renderElement(radioValue, isCustomStylesChecked);
     });
+  });
+
+  withStyleCheckbox.addEventListener('change', evt => {
+    const selectedRadio = [].find.call(radioEls, el => el.checked);
+    const isCustomStylesChecked = evt.target.checked;
+    renderElement(selectedRadio.value, isCustomStylesChecked);
   });
 });
