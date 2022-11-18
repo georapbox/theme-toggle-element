@@ -4,7 +4,9 @@ const ROOT_ATTR = 'data-theme';
 
 const template = document.createElement('template');
 
-template.innerHTML = /* html */`
+const html = String.raw;
+
+template.innerHTML = html`
   <style>
     :host {
       --icon-light-color: currentColor;
@@ -112,14 +114,14 @@ class ThemeToggle extends HTMLElement {
   }
 
   connectedCallback() {
+    this.#upgradeProperty('fromStorage');
+    this.#upgradeProperty('toggleTitle');
+
     this.#theme = this.#getThemePreference();
     this.#reflectThemePreference();
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.#onMatchMediaChange);
     this.shadowRoot.getElementById('theme-toggle').addEventListener('click', this.#onToggleClick);
-
-    this.#upgradeProperty('fromStorage');
-    this.#upgradeProperty('toggleTitle');
   }
 
   disconnectedCallback() {
@@ -185,6 +187,12 @@ class ThemeToggle extends HTMLElement {
     this.#dispatchChangeEvent();
   };
 
+  /**
+   * https://developers.google.com/web/fundamentals/web-components/best-practices#lazy-properties
+   * This is to safe guard against cases where, for instance, a framework may have added the element to the page and set a
+   * value on one of its properties, but lazy loaded its definition. Without this guard, the upgraded element would miss that
+   * property and the instance property would prevent the class property setter from ever being called.
+   */
   #upgradeProperty(prop) {
     if (Object.prototype.hasOwnProperty.call(this, prop)) {
       const value = this[prop];

@@ -26,7 +26,7 @@ $ npm install --save @georapbox/theme-toggle-element
 ### Script
 
 ```js
-import { ThemeToggle } from './node_modules/@georapbox/theme-toggle-element/dist/theme-toggle.min.js';
+import { ThemeToggle } from './node_modules/@georapbox/theme-toggle-element/dist/theme-toggle.js';
 
 // Manually define the element.
 ThemeToggle.defineCustomElement();
@@ -35,7 +35,7 @@ ThemeToggle.defineCustomElement();
 Alternatively, you can import the automatically defined custom element.
 
 ```js
-import './node_modules/@georapbox/theme-toggle-element/dist/theme-toggle-defined.min.js';
+import './node_modules/@georapbox/theme-toggle-element/dist/theme-toggle-defined.js';
 ```
 
 ### Markup
