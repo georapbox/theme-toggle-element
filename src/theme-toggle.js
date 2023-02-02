@@ -4,9 +4,7 @@ const ROOT_ATTR = 'data-theme';
 
 const template = document.createElement('template');
 
-const html = String.raw;
-
-template.innerHTML = html`
+template.innerHTML = /* html */`
   <style>
     :host {
       --icon-light-color: currentColor;
