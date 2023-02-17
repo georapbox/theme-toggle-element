@@ -1,5 +1,5 @@
 const isLocalhost = window.location.href.includes('127.0.0.1') || window.location.href.includes('localhost');
-const componentUrl = isLocalhost ? '../../dist/theme-toggle-defined.js' : 'https://unpkg.com/@georapbox/theme-toggle-element/dist/theme-toggle-defined.js';
+const componentUrl = isLocalhost ? '../../dist/theme-toggle-defined.js' : '../lib/theme-toggle-defined.js';
 
 const withStyleCheckbox = document.getElementById('with-style');
 const radioEls = document.querySelectorAll('input[type="radio"]');
