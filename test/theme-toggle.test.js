@@ -4,6 +4,10 @@ import { ThemeToggle } from '../src/theme-toggle.js';
 ThemeToggle.defineCustomElement();
 
 describe('<theme-toggle>', () => {
+  afterEach(() => {
+    fixtureCleanup();
+  });
+
   it('passes accessibility test', async () => {
     const el = await fixture(html`<theme-toggle></theme-toggle>`);
     await expect(el).to.be.accessible();
@@ -11,97 +15,74 @@ describe('<theme-toggle>', () => {
 
   it('default properties', async () => {
     const el = await fixture(html`<theme-toggle></theme-toggle>`);
-
-    expect(el.fromStorage).to.be.false;
-    expect(el.getAttribute('from-storage')).to.be.null;
-
     expect(el.toggleTitle).to.be.null;
     expect(el.getAttribute('toggle-title')).to.be.null;
   });
 
   it('change default properties', async () => {
-    const el = await fixture(html`<theme-toggle from-storage toggle-title="Toggle theme"></theme-toggle>`);
-
-    expect(el.fromStorage).to.be.true;
-    expect(el.getAttribute('from-storage')).to.equal('');
-
+    const el = await fixture(html`<theme-toggle toggle-title="Toggle theme"></theme-toggle>`);
     expect(el.toggleTitle).to.equal('Toggle theme');
     expect(el.getAttribute('toggle-title')).to.equal('Toggle theme');
   });
 
   it('change properties programmatically', async () => {
     const el = await fixture(html`<theme-toggle></theme-toggle>`);
-
-    el.fromStorage = true;
     el.toggleTitle = 'Toggle theme';
-
     await elementUpdated(el);
-
-    expect(el.fromStorage).to.be.true;
-    expect(el.getAttribute('from-storage')).to.equal('');
-
     expect(el.toggleTitle).to.equal('Toggle theme');
     expect(el.getAttribute('toggle-title')).to.equal('Toggle theme');
-
-    el.fromStorage = false;
-
-    expect(el.fromStorage).to.be.false;
-    expect(el.getAttribute('from-storage')).to.be.null;
   });
 
   it('adds "data-theme" attribute to root element of document', async () => {
     await fixture(html`<theme-toggle></theme-toggle>`);
-
     expect(document.documentElement).to.have.attribute('data-theme');
   });
 
   it('"data-theme" attribute on root element changes when clicking the toggle button', async () => {
     const el = await fixture(html`<theme-toggle></theme-toggle>`);
     const button = el.shadowRoot.getElementById('theme-toggle');
-
-    // Playwright test default color scheme is 'light'.
-    // https://playwright.dev/docs/api/class-testoptions#test-options-color-scheme
-    expect(document.documentElement).to.have.attribute('data-theme', 'light');
-
+    expect(document.documentElement).to.have.attribute('data-theme', 'system');
     button.click();
-
+    expect(document.documentElement).to.have.attribute('data-theme', 'light');
+    button.click();
     expect(document.documentElement).to.have.attribute('data-theme', 'dark');
+    button.click(); // back to system
   });
 
   it('"aria-label" attribute on toggle button changes when clicking the the toggle button', async () => {
     const el = await fixture(html`<theme-toggle></theme-toggle>`);
     const button = el.shadowRoot.getElementById('theme-toggle');
-
-    expect(button).to.have.attribute('aria-label', 'light');
-
+    expect(button).to.have.attribute('aria-label', 'system');
     button.click();
-
+    expect(button).to.have.attribute('aria-label', 'light');
+    button.click();
     expect(button).to.have.attribute('aria-label', 'dark');
+    button.click(); // back to system
   });
 
   it('toggle button\'s content visibility changes when clicking the the toggle button', async () => {
     const el = await fixture(html`<theme-toggle></theme-toggle>`);
     const button = el.shadowRoot.getElementById('theme-toggle');
-    const lightContentSlot = el.shadowRoot.querySelector('slot[name="content-light"]');
-    const darkContentSlot = el.shadowRoot.querySelector('slot[name="content-dark"]');
-
-    expect(lightContentSlot).not.to.have.attribute('hidden');
-    expect(darkContentSlot).to.have.attribute('hidden');
-
+    const systemContentSlot = el.shadowRoot.querySelector('slot[name="system"]');
+    const lightContentSlot = el.shadowRoot.querySelector('slot[name="light"]');
+    const darkContentSlot = el.shadowRoot.querySelector('slot[name="dark"]');
+    expect(systemContentSlot).not.to.have.class('hidden');
+    expect(lightContentSlot).to.have.class('hidden');
+    expect(darkContentSlot).to.have.class('hidden');
     button.click();
-
-    expect(lightContentSlot).to.have.attribute('hidden');
-    expect(darkContentSlot).not.to.have.attribute('hidden');
+    expect(systemContentSlot).to.have.class('hidden');
+    expect(lightContentSlot).not.to.have.class('hidden');
+    expect(darkContentSlot).to.have.class('hidden');
+    button.click();
+    expect(systemContentSlot).to.have.class('hidden');
+    expect(lightContentSlot).to.have.class('hidden');
+    expect(darkContentSlot).not.to.have.class('hidden');
+    button.click(); // back to system
   });
 
   it('changes toggle button title', async () => {
     const el = await fixture(html`<theme-toggle toggle-title="Toggle theme"></theme-toggle>`);
     const button = el.shadowRoot.getElementById('theme-toggle');
-
     expect(button).to.have.attribute('title', 'Toggle theme');
-  });
-
-  afterEach(() => {
-    fixtureCleanup();
   });
 });
