@@ -129,6 +129,16 @@ The component comes with default styling, but you can override it by using the [
   </style>
 
   <theme-toggle></theme-toggle>
+
+  <script>
+    import { ThemeToggle } from './node_modules/@georapbox/theme-toggle-element/dist/theme-toggle.js';
+
+    ThemeToggle.defineCustomElement();
+
+    documemt.addEventListener('theme-toggle:change', evt => {
+      console.log('theme-toggle:change ->', evt.detail);
+    });
+  </script>
 ```
 
 ## Changelog
