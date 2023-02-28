@@ -11,7 +11,7 @@ A custom element that allows you to toggle between light, dark and system theme.
 
 ## How it works
 
-By default, the component determines the theme from user's system preferences using the `prefers-color-scheme` media query and registers to listen for changes. When the theme is changed, by clicking the toggle button, the selected theme is saved in `localStorage` to be used in the future. A `data-theme` attibute is added to the root element of the document, with the appropriate value (light, dark, system).
+By default, the component determines the theme from user's system preferences using the `prefers-color-scheme` media query. When the theme is changed, by clicking the toggle button, the selected theme is saved in `localStorage` to be used in the future. A `data-theme` attibute is added to the root element of the document, with the appropriate value (light, dark, system).
 
 [API documentation](#api) &bull; [Demo][demo]
 
@@ -85,6 +85,51 @@ The component comes with default styling, but you can override it by using the [
 | Name | Description | Event Detail |
 | ---- | ----------- | ------------ |
 | `theme-toggle:change` | Emitted when theme changes by user's interaction. | `{theme: 'light' \| 'dark' \| 'system'}` |
+
+
+### Usage example
+
+```html
+  <style>
+    :root {
+      --body-color: #000;
+      --body-bg-color: #fff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --body-color: #fff;
+        --body-bg-color: #000;
+      }
+    }
+
+    :root[data-theme="light"] {
+      --body-color: #000;
+      --body-bg-color: #fff;
+    }
+
+    :root[data-theme="dark"] {
+      --body-color: #fff;
+      --body-bg-color: #000;
+    }
+
+    theme-toggle:not(:defined) {
+      display: none;
+    }
+    
+    theme-toggle {
+      --icon-size: 32px;
+      --icon-color: currentColor;
+    }
+
+    theme-toggle::part(button) {
+      padding: 0.5rem;
+      border: 1px solid var(--body-color);
+    }
+  </style>
+
+  <theme-toggle></theme-toggle>
+```
 
 ## Changelog
 
