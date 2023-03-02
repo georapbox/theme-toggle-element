@@ -11,7 +11,7 @@ A custom element that allows you to toggle between light, dark and system theme.
 
 ## How it works
 
-By default, the component determines the theme from user's system preferences using the `prefers-color-scheme` media query. When the theme is changed, by clicking the toggle button, the selected theme is saved in `localStorage` to be used in the future. A `data-theme` attibute is added to the root element of the document, with the appropriate value (light, dark, system).
+By default, the component determines the theme from user's system preferences using the `prefers-color-scheme` media query. When the theme is changed, by clicking the toggle button, the selected theme is saved in `localStorage` if `noStorage` is `false` (default). A `data-theme` attibute is added to the root element of the document, with the appropriate value (light, dark, system). The default value is `system`, but if the user has previously selected a theme and the `noStorage` property is not set to `true`, the saved theme is used instead.
 
 [API documentation](#api) &bull; [Demo][demo]
 
@@ -55,7 +55,8 @@ The component comes with a bare minimum style, but you can override it by using 
 | Name | Reflects | Type | Required | Description |
 | ---- | -------- | ---- | -------- |------------ |
 | `toggleTitle`<br>*`toggle-title`* | ✓ | String | - | The `title` attribute of the toggle button. If omitted, the button's title changes according to the selected theme. |
-| `storageKey`<br>*`storage-key`* | ✓ | String | - | The key to be used in `localStorage` to save the theme preference. If omitted, the default value is `theme-toggle/theme-preference`. |
+| `noStorage`<br>*`no-storage`* | ✓ | Boolean | - | If `true`, the theme preference is not saved in `localStorage`. Any previously saved preference is ignored, but is not removed from `localStorage`. |
+| `storageKey`<br>*`storage-key`* | ✓ | String | - | The key to be used in `localStorage` to save the theme preference. If omitted, the default value is `theme-toggle/theme-preference`. If `noStorage` is `true`, this property is ignored. |
 
 ### Slots
 

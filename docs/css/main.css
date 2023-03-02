@@ -47,11 +47,11 @@
 }
 
 theme-toggle:not(:defined) {
-  height: 235px;
+  height: 205px;
 }
 
 theme-toggle {
-  --icon-size: 230px;
+  --icon-size: 200px;
   display: block;
 }
 

@@ -34,6 +34,13 @@ describe('theme-toggle', () => {
       expect(el).to.have.attribute('toggle-title', 'TOGGLE_TITLE');
     });
 
+    it('reflects property "noStorage" to attribute "no-storage"', async () => {
+      const el = await fixture(html`<theme-toggle></theme-toggle>`);
+      el.noStorage = true;
+      await elementUpdated(el);
+      expect(el).to.have.attribute('no-storage');
+    });
+
     it('reflects property "storageKey" to attribute "storage-key"', async () => {
       const el = await fixture(html`<theme-toggle></theme-toggle>`);
       el.storageKey = 'STORAGE_KEY';
@@ -46,6 +53,11 @@ describe('theme-toggle', () => {
     it('reflects attribute "toggle-title" to property "toggleTitle"', async () => {
       const el = await fixture(html`<theme-toggle toggle-title="TOGGLE_TITLE"></theme-toggle>`);
       expect(el.toggleTitle).to.equal('TOGGLE_TITLE');
+    });
+
+    it('reflects attribute "no-storage" to property "noStorage"', async () => {
+      const el = await fixture(html`<theme-toggle no-storage></theme-toggle>`);
+      expect(el.noStorage).to.be.true;
     });
 
     it('reflects attribute "storage-key" to property "storageKey"', async () => {

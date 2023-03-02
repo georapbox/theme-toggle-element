@@ -9,6 +9,14 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="stylesheet" href="css/water.css">
   <link rel="stylesheet" href="css/main.css">
+  <script>
+    try {
+      // Set theme early to avoid flash of unstyled content.
+      document.documentElement.setAttribute('data-theme', window.localStorage.getItem('theme-toggle/theme-preference') || 'system');
+    } catch (err) {
+      // Fail silently...
+    }
+  </script>
 </head>
 <body>
   <h1>&lt;theme-toggle&gt;</h1>

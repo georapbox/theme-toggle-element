@@ -114,6 +114,18 @@ class ThemeToggle extends HTMLElement {
     this.setAttribute('toggle-title', value);
   }
 
+  get noStorage() {
+    return this.hasAttribute('no-storage');
+  }
+
+  set noStorage(value) {
+    if (value) {
+      this.setAttribute('no-storage', '');
+    } else {
+      this.removeAttribute('no-storage');
+    }
+  }
+
   get storageKey() {
     return this.getAttribute('storage-key');
   }
@@ -124,6 +136,7 @@ class ThemeToggle extends HTMLElement {
 
   connectedCallback() {
     this.#upgradeProperty('toggleTitle');
+    this.#upgradeProperty('noStorage');
     this.#upgradeProperty('storageKey');
 
     this.#theme = this.#getThemePreference();
@@ -144,6 +157,10 @@ class ThemeToggle extends HTMLElement {
    * @returns {string} Current theme state. Defaults to 'system' if no value is found.
    */
   #getThemePreference() {
+    if (this.noStorage) {
+      return 'system';
+    }
+
     let valueFromStorage;
 
     try {
@@ -159,6 +176,10 @@ class ThemeToggle extends HTMLElement {
    * Save the current theme state to local storage.
    */
   #setThemePreference() {
+    if (this.noStorage) {
+      return;
+    }
+
     try {
       window.localStorage.setItem(this.storageKey || DEFAULT_STORAGE_KEY, this.#theme);
     } catch {
