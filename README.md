@@ -7,11 +7,11 @@
 
 # &lt;theme-toggle&gt;
 
-A custom element that allows you to toggle between dark and light theme.
+A custom element that allows you to toggle between light, dark and system theme.
 
 ## How it works
 
-By default, the component determines the theme from user's system preferences using the `prefers-color-scheme` media query and registers to listen for changes. When the theme is changed, either by clicking the toggle button or by changing the user's system preferences, the selected theme is saved in `localStorage` to be used in the future if `from-storage` attribute is set. A `data-theme` attibute is added to the root element of the document, with the appropriate value (light or dark).
+By default, the component determines the theme from user's system preferences using the `prefers-color-scheme` media query. When the theme is changed, by clicking the toggle button, the selected theme is saved in `localStorage` if `noStorage` is `false` (default). A `data-theme` attibute is added to the root element of the document, with the appropriate value (light, dark, system). The default value is `system`, but if the user has previously selected a theme and the `noStorage` property is not set to `true`, the saved theme is used instead.
 
 [API documentation](#api) &bull; [Demo][demo]
 
@@ -41,59 +41,107 @@ import './node_modules/@georapbox/theme-toggle-element/dist/theme-toggle-defined
 ### Markup
 
 ```html
-<theme-toggle toggle-title="Toggle light & dark theme" from-storage></theme-toggle>
+<theme-toggle toggle-title="Toggle theme" storage-key="theme-preference"></theme-toggle>
 ```
 
 ### Style
 
-The component comes with bare minimum styling by default to give more flexibility for styling customization. Check the [demo][demo] for examples.
+The component comes with a bare minimum style, but you can override it by using the [CSS Cuspom Properties](#css-custom-properties) or by using the [CSS Parts](#css-parts).
 
 ## API
 
 ### Properties
 
 | Name | Reflects | Type | Required | Description |
-| ---- | -------- | ---- | -------- |----------- |
-| `fromStorage`<br>*`from-storage`* | ✓ | Boolean | - | Determines if the component will use any saved preference from storage when initialized. |
-| `toggleTitle`<br>*`toggle-title`* | ✓ | String | - | The `title` attribute of the the toggle button. If omitted, the button's title is "Toggles theme between light & dark". |
+| ---- | -------- | ---- | -------- |------------ |
+| `toggleTitle`<br>*`toggle-title`* | ✓ | String | - | The `title` attribute of the toggle button. If omitted, the button's title changes according to the selected theme. |
+| `noStorage`<br>*`no-storage`* | ✓ | Boolean | - | If `true`, the theme preference is not saved in `localStorage`. Any previously saved preference is ignored, but is not removed from `localStorage`. |
+| `storageKey`<br>*`storage-key`* | ✓ | String | - | The key to be used in `localStorage` to save the theme preference. If omitted, the default value is `theme-toggle/theme-preference`. If `noStorage` is `true`, this property is ignored. |
 
 ### Slots
 
 | Name | Description |
 | ---- | ----------- |
-| `content-light` | The whole section of light content (icon & text). |
-| `icon-light` | The icon for light theme. |
-| `text-light` | The text for light theme. |
-| `content-dark` | The whole section of dark content (icon & text). |
-| `icon-dark` | The icon for dark theme. |
-| `text-dark` | The text for dark theme. |
+| `light` | Override the default content for the light theme. |
+| `dark` | Override the default content for the dark theme. |
+| `system` | Override the default content for the system theme. |
 
 ### CSS Parts
 
 | Name | Description |
 | ---- | ----------- |
-| `theme-toggle` | The toggle button. |
-| `theme-toggle__icon` | Both icons, light and dark. |
-| `theme-toggle__icon--light` | The light icon. |
-| `theme-toggle__icon--dark` | The dark icon. |
-| `theme-toggle__text` | Both texts, light and dark. |
-| `theme-toggle__text--light` | The light text. |
-| `theme-toggle__text--dark` | The dark text. |
+| `button` | The toggle button. |
+| `icon-light` | The light theme icon. |
+| `icon-dark` | The dark theme icon. |
+| `icon-system` | The system theme icon. |
 
 ### CSS Custom Properties
 
 | Name | Default | Description |
 | ---- | ------- | ----------- |
-| `--icon-light-color` | `currentColor` | The color of the icon when theme is light. |
-| `--icon-dark-color` | `currentColor` | The color of the icon when theme is dark. |
-| `--text-light-color` | `currentColor` | The color of the text when theme is light. |
-| `--text-dark-color` | `currentColor` | The color of the text when theme is dark. |
+| `--icon-color` | `currentColor` | The color of the icon. |
+| `--icon-size` | `24px` | The size of the icon (width & height). |
 
 ### Events
 
 | Name | Description | Event Detail |
 | ---- | ----------- | ------------ |
-| `theme-toggle:theme-change` | Emitted when theme changes either by user's interaction or when system preferences change. | `{theme: 'light' \| 'dark'}` |
+| `theme-toggle:change` | Emitted when theme changes by user's interaction. | `{theme: 'light' \| 'dark' \| 'system'}` |
+
+
+### Usage example
+
+```html
+  <style>
+    :root {
+      --body-color: #000;
+      --body-bg-color: #fff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --body-color: #fff;
+        --body-bg-color: #000;
+      }
+    }
+
+    :root[data-theme="light"] {
+      --body-color: #000;
+      --body-bg-color: #fff;
+    }
+
+    :root[data-theme="dark"] {
+      --body-color: #fff;
+      --body-bg-color: #000;
+    }
+
+    theme-toggle:not(:defined) {
+      display: none;
+    }
+    
+    theme-toggle {
+      --icon-size: 32px;
+      --icon-color: currentColor;
+    }
+
+    theme-toggle::part(button) {
+      padding: 0.5rem;
+      border: 1px solid var(--body-color);
+    }
+  </style>
+
+  <theme-toggle></theme-toggle>
+
+  <script>
+    import { ThemeToggle } from './node_modules/@georapbox/theme-toggle-element/dist/theme-toggle.js';
+
+    ThemeToggle.defineCustomElement();
+
+    documemt.addEventListener('theme-toggle:change', evt => {
+      console.log('theme-toggle:change ->', evt.detail);
+    });
+  </script>
+```
 
 ## Changelog
 

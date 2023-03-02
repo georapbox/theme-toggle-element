@@ -5,107 +5,31 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>&lt;theme-toggle&gt;</title>
-  <meta name="description" content="A custom element that allows you to toggle between dark and light theme.">
+  <meta name="description" content="A custom element that allows you to toggle between light, dark and system theme.">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="stylesheet" href="lib/highlight/highlight-github-dark.min.css">
   <link rel="stylesheet" href="css/water.css">
   <link rel="stylesheet" href="css/main.css">
+  <script>
+    try {
+      // Set theme early to avoid flash of unstyled content.
+      document.documentElement.setAttribute('data-theme', window.localStorage.getItem('theme-toggle/theme-preference') || 'system');
+    } catch (err) {
+      // Fail silently...
+    }
+  </script>
 </head>
 <body>
   <h1>&lt;theme-toggle&gt;</h1>
 
-  <p>A custom element that allows you to toggle between dark and light theme.</p>
+  <p>A custom element that allows you to toggle between light, dark and system theme.</p>
 
   <h2>Demo</h2>
 
-  <theme-toggle class="custom-styles"></theme-toggle>
+  <p>Click the icon below to change the page's theme.</p>
 
-  <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-block: 1rem">
-    <div>
-      <input id="show-icon-text" type="radio" name="show" value="icon+text" autocomplete="off" checked>
-      <label for="show-icon-text">Show icon & text</label>
-    </div>
+  <theme-toggle></theme-toggle>
 
-    <div>
-      <input id="show-icon" type="radio" name="show" value="icon" autocomplete="off">
-      <label for="show-icon">Show only icon</label>
-    </div>
-
-    <div>
-      <input id="show-text" type="radio" name="show" value="text" autocomplete="off">
-      <label for="show-text">Show only text</label>
-    </div>
-  </div>
-
-  <div>
-    <input type="checkbox" id="with-style" name="with-style" autocomplete="off" checked>
-    <label for="with-style">With custom styles</label>
-  </div>
-
-  <h2>Source</h2>
-
-  <h3>HTML</h3>
-
-<pre><code id="html-source" class="language-html"></code></pre>
-
-  <h3>CSS</h3>
-
-<pre><code class="language-css">:root {
-  --button-base: #d0cfcf;
-  --button-hover: #9b9b9b;
-}
-
-:root[data-theme="dark"] {
-  --button-base: #0c151c;
-  --button-hover: #040a0f;
-}
-
-theme-toggle:not(:defined) {
-  display: none;
-}
-
-theme-toggle.custom-styles {
-  --icon-light-color: #1d1d1d;
-  --text-light-color: #1d1d1d;
-  --icon-dark-color: #efdb43;
-  --text-dark-color: #efdb43;
-}
-
-theme-toggle.custom-styles::part(theme-toggle) {
-  gap: 1rem;
-  border: 0;
-  background-color: var(--button-base);
-  border-radius: 0.5rem;
-  padding: 1rem 2rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-theme-toggle.custom-styles::part(theme-toggle):hover {
-  background-color: var(--button-hover);
-}
-
-theme-toggle.custom-styles::part(theme-toggle__icon) {
-  width: 30px;
-  height: 30px;
-}
-
-theme-toggle.custom-styles::part(theme-toggle__text) {
-  font-size: 1.8rem;
-}
-
-.visually-hidden {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}
-</code></pre>
+  <pre><code id="console"></code></pre>
 
   <p>
     Source code and documentation can be found in <a href="https://github.com/georapbox/theme-toggle-element" target="_blank" rel="noreferrer noopener">Github repository</a>.
@@ -117,8 +41,6 @@ theme-toggle.custom-styles::part(theme-toggle__text) {
     <a href="https://georapbox.mit-license.org/@2022" target="_blank" rel="noreferrer noopener">The MIT License (MIT)</a>
   </p>
 
-  <script type="module" src="js/main.js"></script>
-  <script src="lib/highlight/highlight.min.js" defer></script>
-  <script>document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());</script>
+  <script type="module" src="./js/main.js"></script>
 </body>
 </html>

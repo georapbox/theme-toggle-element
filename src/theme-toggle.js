@@ -1,16 +1,12 @@
-const storagePrefix = 'theme-toggle/';
-const storageKey = `${storagePrefix}theme-preference`;
+const DEFAULT_STORAGE_KEY = 'theme-toggle/theme-preference';
 const ROOT_ATTR = 'data-theme';
-
 const template = document.createElement('template');
 
 template.innerHTML = /* html */`
   <style>
     :host {
-      --icon-light-color: currentColor;
-      --icon-dark-color: currentColor;
-      --text-light-color: currentColor;
-      --text-dark-color: currentColor;
+      --icon-size: 24px;
+      --icon-color: currentColor;
 
       box-sizing: border-box;
     }
@@ -21,56 +17,75 @@ template.innerHTML = /* html */`
       box-sizing: inherit;
     }
 
-    :host([hidden]),
-    [hidden] {
+    .hidden {
       display: none !important;
     }
 
-    .theme-toggle {
+    button {
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.25rem;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 0.25rem;
+      background-color: transparent;
+      color: inherit;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: inherit;
     }
 
-    .theme-toggle__text--light {
-      color: var(--text-light-color);
-    }
-
-    .theme-toggle__text--dark {
-      color: var(--text-dark-color);
+    .system {
+      transform: scale(0.4) translateY(-4px);
+      transform-origin: center;
     }
   </style>
 
-  <button type="button" part="theme-toggle" class="theme-toggle" id="theme-toggle" title="Toggles theme between light & dark" aria-label="auto" aria-live="polite">
-    <slot name="content-light">
-      <slot name="icon-light">
-        <svg part="theme-toggle__icon theme-toggle__icon--light" class="theme-toggle__icon theme-toggle__icon--light" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="var(--icon-light-color)" viewBox="0 0 16 16">
-          <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
-        </svg>
-      </slot>
-
-      <slot name="text-light">
-        <span part="theme-toggle__text theme-toggle__text--light" class="theme-toggle__text theme-toggle__text--light">Light theme</span>
-      </slot>
+  <button type="button" part="button" id="theme-toggle" aria-live="polite">
+    <slot name="light">
+      <svg part="icon-light" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="var(--icon-color)" style="width: var(--icon-size); height: var(--icon-size);">
+        <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"></path>
+      </svg>
     </slot>
 
-    <slot name="content-dark">
-      <slot name="icon-dark">
-        <svg part="theme-toggle__icon theme-toggle__icon--dark" class="theme-toggle__icon theme-toggle__icon--dark" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="var(--icon-dark-color)" viewBox="0 0 16 16">
-          <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
-        </svg>
-      </slot>
+    <slot name="dark">
+      <svg part="icon-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="var(--icon-color)" style="width: var(--icon-size); height: var(--icon-size);">
+        <path d="M9.5 2c-1.82 0-3.53.5-5 1.35 2.99 1.73 5 4.95 5 8.65s-2.01 6.92-5 8.65c1.47.85 3.18 1.35 5 1.35 5.52 0 10-4.48 10-10S15.02 2 9.5 2z"></path>
+      </svg>
+    </slot>
 
-      <slot name="text-dark">
-        <span part="theme-toggle__text theme-toggle__text--dark" class="theme-toggle__text theme-toggle__text--dark">Dark theme</span>
-      </slot>
+    <slot name="system">
+      <svg part="icon-system" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="var(--icon-color)" style="width: var(--icon-size); height: var(--icon-size);">
+        <path d="M20 3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h3l-1 1v2h12v-2l-1-1h3c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H4V5h16v11z"></path>
+        <path class="system system--light" d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"></path>
+        <path class="system system--dark" d="M9.5 2c-1.82 0-3.53.5-5 1.35 2.99 1.73 5 4.95 5 8.65s-2.01 6.92-5 8.65c1.47.85 3.18 1.35 5 1.35 5.52 0 10-4.48 10-10S15.02 2 9.5 2z"></path>
+      </svg>
     </slot>
   </button>
 `;
 
 class ThemeToggle extends HTMLElement {
+  /**
+   * @private
+   * @type {string[]}
+   * @description List of supported theme states.
+   */
+  #states = ['light', 'dark', 'system'];
+
+  /**
+   * @private
+   * @type {string}
+   * @description Current theme state.
+   */
   #theme;
+
+  /**
+   * @private
+   * @type {number}
+   * @description Current theme state index.
+   */
+  #index;
 
   constructor() {
     super();
@@ -87,19 +102,7 @@ class ThemeToggle extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'toggle-title' && oldValue !== newValue) {
-      this.shadowRoot.getElementById('theme-toggle').title = this.toggleTitle;
-    }
-  }
-
-  get fromStorage() {
-    return this.hasAttribute('from-storage');
-  }
-
-  set fromStorage(value) {
-    if (value) {
-      this.setAttribute('from-storage', '');
-    } else {
-      this.removeAttribute('from-storage');
+      this.shadowRoot.getElementById('theme-toggle').setAttribute('title', this.toggleTitle);
     }
   }
 
@@ -111,78 +114,134 @@ class ThemeToggle extends HTMLElement {
     this.setAttribute('toggle-title', value);
   }
 
+  get noStorage() {
+    return this.hasAttribute('no-storage');
+  }
+
+  set noStorage(value) {
+    if (value) {
+      this.setAttribute('no-storage', '');
+    } else {
+      this.removeAttribute('no-storage');
+    }
+  }
+
+  get storageKey() {
+    return this.getAttribute('storage-key');
+  }
+
+  set storageKey(value) {
+    this.setAttribute('storage-key', value);
+  }
+
   connectedCallback() {
-    this.#upgradeProperty('fromStorage');
     this.#upgradeProperty('toggleTitle');
+    this.#upgradeProperty('noStorage');
+    this.#upgradeProperty('storageKey');
 
     this.#theme = this.#getThemePreference();
+    this.#index = this.#states.indexOf(this.#theme) || 0;
     this.#reflectThemePreference();
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.#onMatchMediaChange);
-    this.shadowRoot.getElementById('theme-toggle').addEventListener('click', this.#onToggleClick);
+    this.shadowRoot.getElementById('theme-toggle').addEventListener('click', this.#onClick);
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.#onMediaChange);
   }
 
   disconnectedCallback() {
-    window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.#onMatchMediaChange);
-    this.shadowRoot.getElementById('theme-toggle').removeEventListener('click', this.#onToggleClick);
+    this.shadowRoot.getElementById('theme-toggle').removeEventListener('click', this.#onClick);
+    window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.#onMediaChange);
   }
 
+  /**
+   * Get the current theme state from local storage.
+   * @returns {string} Current theme state. Defaults to 'system' if no value is found.
+   */
   #getThemePreference() {
+    if (this.noStorage) {
+      return 'system';
+    }
+
     let valueFromStorage;
 
     try {
-      if (this.fromStorage) {
-        valueFromStorage = window.localStorage.getItem(storageKey);
-      }
+      valueFromStorage = window.localStorage.getItem(this.storageKey || DEFAULT_STORAGE_KEY);
     } catch {
       // Fail silently...
     }
 
-    return valueFromStorage || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    return this.#states.includes(valueFromStorage) ? valueFromStorage : 'system';
   }
 
+  /**
+   * Save the current theme state to local storage.
+   */
   #setThemePreference() {
+    if (this.noStorage) {
+      return;
+    }
+
     try {
-      window.localStorage.setItem(storageKey, this.#theme);
+      window.localStorage.setItem(this.storageKey || DEFAULT_STORAGE_KEY, this.#theme);
     } catch {
       // Fail silently...
     }
   }
 
+  /**
+   * Reflect the current theme state.
+   * This method is called on initialization and when the theme state changes (e.g. via click event).
+   */
   #reflectThemePreference() {
     const toggleBtn = this.shadowRoot.getElementById('theme-toggle');
-
     toggleBtn.setAttribute('aria-label', this.#theme);
-
-    toggleBtn.querySelectorAll('slot[name="content-light"], slot[name="content-dark"]').forEach(el => {
-      el.hidden = !el.name.includes(this.#theme);
-    });
-
+    toggleBtn.querySelectorAll('slot').forEach(el => el.classList.toggle('hidden', !el.name.includes(this.#theme)));
     document.documentElement.setAttribute(ROOT_ATTR, this.#theme);
+
+    if (!this.toggleTitle) {
+      toggleBtn.setAttribute('title', `Set theme to ${this.#states[(this.#index + 1) % this.#states.length]}`);
+    }
+
+    if (this.#theme === 'system') {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      toggleBtn.querySelectorAll('.system').forEach(el => {
+        el.classList.toggle('hidden', prefersDark ? el.classList.contains('system--light') : el.classList.contains('system--dark'));
+      });
+    }
   }
 
-  #dispatchChangeEvent() {
-    this.dispatchEvent(new CustomEvent('theme-toggle:theme-change', {
+  /**
+   * Get the next theme state.
+   * @returns {string} Next theme state.
+   */
+  #nextTheme() {
+    this.#index = (this.#index + 1) % this.#states.length;
+    return this.#states[this.#index];
+  }
+
+  /**
+   * Handle click event.
+   */
+  #onClick = () => {
+    this.#theme = this.#nextTheme();
+
+    this.#setThemePreference();
+    this.#reflectThemePreference();
+
+    this.dispatchEvent(new CustomEvent('theme-toggle:change', {
       bubbles: true,
       composed: true,
       detail: {
         theme: this.#theme
       }
     }));
-  }
-
-  #onToggleClick = () => {
-    this.#theme = this.#theme === 'light' ? 'dark' : 'light';
-    this.#setThemePreference();
-    this.#reflectThemePreference();
-    this.#dispatchChangeEvent();
   };
 
-  #onMatchMediaChange = mqList => {
-    this.#theme = mqList.matches ? 'dark' : 'light';
-    this.#setThemePreference();
+  /**
+   * Handle media change event.
+   * This is only relevant when the theme state is set to 'system'.
+   */
+  #onMediaChange = () => {
     this.#reflectThemePreference();
-    this.#dispatchChangeEvent();
   };
 
   /**
