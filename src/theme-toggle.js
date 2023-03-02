@@ -1,5 +1,4 @@
-const storagePrefix = 'theme-toggle/';
-const storageKey = `${storagePrefix}theme-preference`;
+const DEFAULT_STORAGE_KEY = 'theme-toggle/theme-preference';
 const ROOT_ATTR = 'data-theme';
 const template = document.createElement('template');
 
@@ -27,16 +26,14 @@ template.innerHTML = /* html */`
       justify-content: center;
       align-items: center;
       gap: 0.25rem;
-      padding: 0.75rem;
+      padding: 0.5rem;
       border: none;
       border-radius: 0.25rem;
-      background: transparent;
+      background-color: transparent;
       color: inherit;
       cursor: pointer;
       font-family: inherit;
       font-size: inherit;
-      --webkit-appearance: none;
-      appearance: none;
     }
 
     .system {
@@ -117,8 +114,17 @@ class ThemeToggle extends HTMLElement {
     this.setAttribute('toggle-title', value);
   }
 
+  get storageKey() {
+    return this.getAttribute('storage-key');
+  }
+
+  set storageKey(value) {
+    this.setAttribute('storage-key', value);
+  }
+
   connectedCallback() {
     this.#upgradeProperty('toggleTitle');
+    this.#upgradeProperty('storageKey');
 
     this.#theme = this.#getThemePreference();
     this.#index = this.#states.indexOf(this.#theme) || 0;
@@ -141,7 +147,7 @@ class ThemeToggle extends HTMLElement {
     let valueFromStorage;
 
     try {
-      valueFromStorage = window.localStorage.getItem(storageKey);
+      valueFromStorage = window.localStorage.getItem(this.storageKey || DEFAULT_STORAGE_KEY);
     } catch {
       // Fail silently...
     }
@@ -154,7 +160,7 @@ class ThemeToggle extends HTMLElement {
    */
   #setThemePreference() {
     try {
-      window.localStorage.setItem(storageKey, this.#theme);
+      window.localStorage.setItem(this.storageKey || DEFAULT_STORAGE_KEY, this.#theme);
     } catch {
       // Fail silently...
     }

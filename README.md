@@ -41,20 +41,21 @@ import './node_modules/@georapbox/theme-toggle-element/dist/theme-toggle-defined
 ### Markup
 
 ```html
-<theme-toggle toggle-title="Toggle theme"></theme-toggle>
+<theme-toggle toggle-title="Toggle theme" storage-key="theme-preference"></theme-toggle>
 ```
 
 ### Style
 
-The component comes with default styling, but you can override it by using the [CSS Cuspom Properties](#css-custom-properties) or by using the [CSS Parts](#css-parts).
+The component comes with a bare minimum style, but you can override it by using the [CSS Cuspom Properties](#css-custom-properties) or by using the [CSS Parts](#css-parts).
 
 ## API
 
 ### Properties
 
 | Name | Reflects | Type | Required | Description |
-| ---- | -------- | ---- | -------- |----------- |
+| ---- | -------- | ---- | -------- |------------ |
 | `toggleTitle`<br>*`toggle-title`* | ✓ | String | - | The `title` attribute of the toggle button. If omitted, the button's title changes according to the selected theme. |
+| `storageKey`<br>*`storage-key`* | ✓ | String | - | The key to be used in `localStorage` to save the theme preference. If omitted, the default value is `theme-toggle/theme-preference`. |
 
 ### Slots
 
