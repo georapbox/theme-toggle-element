@@ -1,10 +1,4 @@
-// @ts-check
-
-const DEFAULT_STORAGE_KEY = 'theme-toggle/theme-preference';
-const ROOT_ATTR = 'data-theme';
-const template = document.createElement('template');
-
-template.innerHTML = /* html */`
+let e="theme-toggle/theme-preference",t=document.createElement("template");t.innerHTML=/* html */`
   <style>
     :host {
       display: inline-block;
@@ -76,9 +70,7 @@ template.innerHTML = /* html */`
       <slot name="label-system" part="label label-system">System theme</slot>
     </slot>
   </button>
-`;
-
-/**
+`;/**
  * @summary A custom element that allows the user to toggle between light, dark and system theme.
  * @extends HTMLElement
  *
@@ -111,200 +103,55 @@ template.innerHTML = /* html */`
  * @fires theme-change - Fired when the theme state changes.
  *
  * @tagname theme-toggle - This is the default tag name, unless overridden by the `defineCustomElement` method.
- */
-class ThemeToggle extends HTMLElement {
-  /**
+ */class s extends HTMLElement{/**
    * Holds the possible theme states.
    * @type {('light' | 'dark' | 'system')[]}
-   */
-  #states = ['light', 'dark', 'system'];
-
-  /**
+   */#e=["light","dark","system"];/**
    * The current theme state.
    * @type {'light' | 'dark' | 'system'}
-   */
-  #theme = 'system';
-
-  /**
+   */#t="system";/**
    * The index of the currently selected theme state.
    * @type {number}
-   */
-  #selectedThemeIndex = 0;
-
-  /**
+   */#s=0;/**
    * The theme toggle button.
    * @type {HTMLElement | null}
-   */
-  #toggleButton = null;
-
-  constructor() {
-    super();
-
-    if (!this.shadowRoot) {
-      /** @type {ShadowRoot} */
-      const shadowRoot = this.attachShadow({ mode: 'open' });
-      shadowRoot.appendChild(template.content.cloneNode(true));
-    }
-
-    this.#toggleButton = this.shadowRoot?.getElementById('theme-toggle') || null;
-  }
-
-  /**
+   */#o=null;constructor(){if(super(),!this.shadowRoot){/** @type {ShadowRoot} */let e=this.attachShadow({mode:"open"});e.appendChild(t.content.cloneNode(!0))}this.#o=this.shadowRoot?.getElementById("theme-toggle")||null}/**
    * Indicates whether the theme state should be persisted to local storage.
    *
    * @type {boolean}
    * @default false
    * @attribute no-storage - Reflects the noStorage property.
-   */
-  get noStorage() {
-    return this.hasAttribute('no-storage');
-  }
-
-  set noStorage(value) {
-    if (value) {
-      this.setAttribute('no-storage', '');
-    } else {
-      this.removeAttribute('no-storage');
-    }
-  }
-
-  /**
+   */get noStorage(){return this.hasAttribute("no-storage")}set noStorage(e){e?this.setAttribute("no-storage",""):this.removeAttribute("no-storage")}/**
    * The key used to store the theme state in local storage.
    *
    * @type {string | null}
    * @default 'theme-toggle/theme-preference'
    * @attribute storage-key - Reflects the storageKey property.
-   */
-  get storageKey() {
-    return this.getAttribute('storage-key');
-  }
-
-  set storageKey(value) {
-    if (value != null) {
-      this.setAttribute('storage-key', value);
-    }
-  }
-
-  /**
+   */get storageKey(){return this.getAttribute("storage-key")}set storageKey(e){null!=e&&this.setAttribute("storage-key",e)}/**
    * Lifecycle method that is called when the element is added to the DOM.
-   */
-  connectedCallback() {
-    this.#upgradeProperty('noStorage');
-    this.#upgradeProperty('storageKey');
-
-    this.#theme = this.#getThemePreference();
-    this.#selectedThemeIndex = this.#states.indexOf(this.#theme) || 0;
-    this.#reflectThemePreference();
-
-    this.#toggleButton?.addEventListener('click', this.#onClick);
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.#onMediaChange);
-  }
-
-  /**
+   */connectedCallback(){this.#l("noStorage"),this.#l("storageKey"),this.#t=this.#i(),this.#s=this.#e.indexOf(this.#t)||0,this.#n(),this.#o?.addEventListener("click",this.#h),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",this.#a)}/**
    * Lifecycle method that is called when the element is removed from the DOM.
-   */
-  disconnectedCallback() {
-    this.#toggleButton?.removeEventListener('click', this.#onClick);
-    window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.#onMediaChange);
-  }
-
-  /**
+   */disconnectedCallback(){this.#o?.removeEventListener("click",this.#h),window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change",this.#a)}/**
    * Gets the current theme state from local storage.
    *
    * @returns {'light' | 'dark' | 'system'} Current theme state. Defaults to 'system' if no value is found.
-   */
-  #getThemePreference() {
-    if (this.noStorage) {
-      return 'system';
-    }
-
-    /** @type {string} */
-    let valueFromStorage = '';
-
-    try {
-      valueFromStorage = window.localStorage.getItem(this.storageKey || DEFAULT_STORAGE_KEY) || '';
-    } catch {
-      // Fail silently...
-    }
-
-    if (valueFromStorage === 'light' || valueFromStorage === 'dark' || valueFromStorage === 'system') {
-      return valueFromStorage;
-    }
-
-    return 'system';
-  }
-
-  /**
+   */#i(){if(this.noStorage)return"system";/** @type {string} */let t="";try{t=window.localStorage.getItem(this.storageKey||e)||""}catch{// Fail silently...
+}return"light"===t||"dark"===t||"system"===t?t:"system"}/**
    * Save the current theme state to local storage.
-   */
-  #setThemePreference() {
-    if (this.noStorage) {
-      return;
-    }
-
-    try {
-      window.localStorage.setItem(this.storageKey || DEFAULT_STORAGE_KEY, this.#theme);
-    } catch {
-      // Fail silently...
-    }
-  }
-
-  /**
+   */#r(){if(!this.noStorage)try{window.localStorage.setItem(this.storageKey||e,this.#t)}catch{// Fail silently...
+}}/**
    * Reflects the current theme state.
    * This method is called on initialization and when the theme state changes (e.g. via click event).
-   */
-  #reflectThemePreference() {
-    this.#toggleButton?.querySelectorAll(`slot[name="light"], slot[name="dark"], slot[name="system"]`).forEach(el => {
-      el.classList.toggle('hidden', !el.getAttribute('name')?.startsWith(this.#theme));
-    });
-
-    document.documentElement.setAttribute(ROOT_ATTR, this.#theme);
-
-    if (this.#theme === 'system') {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      this.#toggleButton?.querySelectorAll('.system').forEach(el => {
-        el.classList.toggle('hidden', prefersDark ? el.classList.contains('system--light') : el.classList.contains('system--dark'));
-      });
-    }
-  }
-
-  /**
+   */#n(){if(this.#o?.querySelectorAll('slot[name="light"], slot[name="dark"], slot[name="system"]').forEach(e=>{e.classList.toggle("hidden",!e.getAttribute("name")?.startsWith(this.#t))}),document.documentElement.setAttribute("data-theme",this.#t),"system"===this.#t){let e=window.matchMedia("(prefers-color-scheme: dark)").matches;this.#o?.querySelectorAll(".system").forEach(t=>{t.classList.toggle("hidden",e?t.classList.contains("system--light"):t.classList.contains("system--dark"))})}}/**
    * Gets the next theme state.
    *
    * @returns {'light' | 'dark' | 'system'} Next theme state.
-   */
-  #nextTheme() {
-    this.#selectedThemeIndex = (this.#selectedThemeIndex + 1) % this.#states.length;
-    return this.#states[this.#selectedThemeIndex];
-  }
-
-  /**
+   */#c(){return this.#s=(this.#s+1)%this.#e.length,this.#e[this.#s]}/**
    * Handles the click event.
-   */
-  #onClick = () => {
-    this.#theme = this.#nextTheme();
-
-    this.#setThemePreference();
-    this.#reflectThemePreference();
-
-    this.dispatchEvent(new CustomEvent('theme-change', {
-      bubbles: true,
-      composed: true,
-      detail: {
-        theme: this.#theme
-      }
-    }));
-  };
-
-  /**
+   */#h=()=>{this.#t=this.#c(),this.#r(),this.#n(),this.dispatchEvent(new CustomEvent("theme-change",{bubbles:!0,composed:!0,detail:{theme:this.#t}}))};/**
    * Handle media change event.
    * This is only relevant when the theme state is set to 'system'.
-   */
-  #onMediaChange = () => {
-    this.#reflectThemePreference();
-  };
-
-  /**
+   */#a=()=>{this.#n()};/**
    * This is to safe guard against cases where, for instance, a framework may have added the element to the page and set a
    * value on one of its properties, but lazy loaded its definition. Without this guard, the upgraded element would miss that
    * property and the instance property would prevent the class property setter from ever being called.
@@ -312,29 +159,12 @@ class ThemeToggle extends HTMLElement {
    * https://developers.google.com/web/fundamentals/web-components/best-practices#lazy-properties
    *
    * @param {keyof ThemeToggle} prop - The property to upgrade.
-   */
-  #upgradeProperty(prop) {
-    if (Object.prototype.hasOwnProperty.call(this, prop)) {
-      const value = this[prop];
-      delete this[prop];
-      // @ts-ignore
-      this[prop] = value;
-    }
-  }
-
-  /**
+   */#l(e){if(Object.prototype.hasOwnProperty.call(this,e)){let t=this[e];delete this[e],// @ts-ignore
+this[e]=t}}/**
    * Defines a custom element with the given name.
    * The name must contain a dash (-).
    *
    * @param {string} [elementName='theme-toggle']
    * @example
    * ThemeToggle.defineCustomElement('theme-change');
-   */
-  static defineCustomElement(elementName = 'theme-toggle') {
-    if (typeof window !== 'undefined' && !window.customElements.get(elementName)) {
-      window.customElements.define(elementName, ThemeToggle);
-    }
-  }
-}
-
-export { ThemeToggle };
+   */static defineCustomElement(e="theme-toggle"){"undefined"==typeof window||window.customElements.get(e)||window.customElements.define(e,s)}}export{s as ThemeToggle};
