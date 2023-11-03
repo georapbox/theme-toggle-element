@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v4.0.0 (2023-11-07)
+
+### Breaking Changes
+
+- Remove `toggle-title` attribute. User can still use the `title` attribute to set the title of the component.
+- Remove CSS custom properties.
+- Rename CSS Part `button` to `base`.
+- Add a default label next to the icon for each theme.
+- Rename emitted event `theme-toggle:change` to `theme-change`.
+
+## Other Changes
+
+- Add new slots for overriding the default content for icons and labels for each theme.
+- Add new CSS Parts for customizing the icon and label for each theme.
+
 ## v3.0.0 (2023-03-02)
 
 ### Breaking Changes
