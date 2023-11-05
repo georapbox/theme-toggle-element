@@ -141,7 +141,7 @@ class BrowserWindow extends HTMLElement {
     let os = this.getAttribute(BrowserWindow.attrs.os) || "osx";
     let windowsIcons = /* html */`<svg width="58" height="14" viewBox="0 0 58 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H11" stroke="#878787" stroke-linecap="round" stroke-linejoin="round"></path><path d="M35 1H25C24.4477 1 24 1.44772 24 2V12C24 12.5523 24.4477 13 25 13H35C35.5523 13 36 12.5523 36 12V2C36 1.44772 35.5523 1 35 1Z" stroke="#878787"></path><path d="M47 2L57 12" stroke="#878787" stroke-linecap="round" stroke-linejoin="round"></path><path d="M47 12L57 2" stroke="#878787" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
 
-    template.innerHTML = /* html */`<div class="window">
+    template.innerHTML = /* html */`<div part="base" class="window">
     <div class="hed ${os}">
       ${os === "windows"
         ? /* html */`<div class="controls">${windowsIcons}</div>`
@@ -150,7 +150,7 @@ class BrowserWindow extends HTMLElement {
             <div class="circle circle-green"></div>`
       }
       ${url
-        ? /* html */`<a href="${url}" class="title"><slot name="icon">${iconHtml}</slot><span class="title-text">${displayUrl}</span></a>`
+        ? /* html */`<a href="${url}" target="_blank" rel="noopener noreferrer" class="title"><slot name="icon">${iconHtml}</slot><span class="title-text">${displayUrl}</span></a>`
         : ""
       }
     </div>

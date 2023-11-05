@@ -100,7 +100,7 @@ let e="theme-toggle/theme-preference",t=document.createElement("template");t.inn
  * @csspart label-dark - The dark theme label element.
  * @csspart label-system - The system theme label element.
  *
- * @fires theme-change - Fired when the theme state changes.
+ * @fires tt-theme-change - Fired when the theme state changes.
  *
  * @tagname theme-toggle - This is the default tag name, unless overridden by the `defineCustomElement` method.
  */class s extends HTMLElement{/**
@@ -148,7 +148,7 @@ let e="theme-toggle/theme-preference",t=document.createElement("template");t.inn
    * @returns {'light' | 'dark' | 'system'} Next theme state.
    */#c(){return this.#s=(this.#s+1)%this.#e.length,this.#e[this.#s]}/**
    * Handles the click event.
-   */#h=()=>{this.#t=this.#c(),this.#r(),this.#n(),this.dispatchEvent(new CustomEvent("theme-change",{bubbles:!0,composed:!0,detail:{theme:this.#t}}))};/**
+   */#h=()=>{this.#t=this.#c(),this.#r(),this.#n(),this.dispatchEvent(new CustomEvent("tt-theme-change",{bubbles:!0,composed:!0,detail:{theme:this.#t}}))};/**
    * Handle media change event.
    * This is only relevant when the theme state is set to 'system'.
    */#a=()=>{this.#n()};/**
@@ -158,13 +158,12 @@ let e="theme-toggle/theme-preference",t=document.createElement("template");t.inn
    *
    * https://developers.google.com/web/fundamentals/web-components/best-practices#lazy-properties
    *
-   * @param {keyof ThemeToggle} prop - The property to upgrade.
-   */#l(e){if(Object.prototype.hasOwnProperty.call(this,e)){let t=this[e];delete this[e],// @ts-ignore
-this[e]=t}}/**
+   * @param {'noStorage' | 'storageKey'} prop - The property to upgrade.
+   */#l(e){if(Object.prototype.hasOwnProperty.call(this,e)){let t=this[e];delete this[e],this[e]=t}}/**
    * Defines a custom element with the given name.
    * The name must contain a dash (-).
    *
    * @param {string} [elementName='theme-toggle']
    * @example
-   * ThemeToggle.defineCustomElement('theme-change');
+   * ThemeToggle.defineCustomElement('theme-changer');
    */static defineCustomElement(e="theme-toggle"){"undefined"==typeof window||window.customElements.get(e)||window.customElements.define(e,s)}}export{s as ThemeToggle};

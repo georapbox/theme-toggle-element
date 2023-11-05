@@ -103,10 +103,15 @@
 
 browser-window {
   --bw-background: var(--background-alt);
+  text-align: center;
+}
+
+browser-window::part(base) {
+  border-color: var(--border);
 }
 
 browser-window > theme-toggle {
-  margin-block: 1rem;
+  margin-block: 2rem;
 }
 
 theme-toggle:not(:defined) {

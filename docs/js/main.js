@@ -5,7 +5,7 @@ const componentUrl = isLocalhost ? '../../dist/theme-toggle.js' : '../lib/theme-
 import(componentUrl).then((module) => {
   module.ThemeToggle.defineCustomElement();
 
-  document.addEventListener('theme-change', evt => {
-    console.log('theme-change ->', evt.detail);
+  document.addEventListener('tt-theme-change', evt => {
+    console.log('tt-theme-change ->', evt.detail);
   });
 });
