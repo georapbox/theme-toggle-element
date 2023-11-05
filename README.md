@@ -112,7 +112,7 @@ theme-toggle::part(base) {
 
 | Name | Description | Event Detail |
 | ---- | ----------- | ------------ |
-| `theme-change` | Emitted when theme changes by user's interaction. | `{theme: 'light' \| 'dark' \| 'system'}` |
+| `tt-theme-change` | Emitted when theme changes by user's interaction. | `{theme: 'light' \| 'dark' \| 'system'}` |
 
 
 ### Usage example
@@ -157,8 +157,8 @@ theme-toggle::part(base) {
 
     ThemeToggle.defineCustomElement();
 
-    documemt.addEventListener('theme-change', evt => {
-      console.log('theme-change ->', evt.detail);
+    documemt.addEventListener('tt-theme-change', evt => {
+      console.log('tt-theme-change ->', evt.detail);
     });
   </script>
 ```

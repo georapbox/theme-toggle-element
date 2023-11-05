@@ -108,7 +108,7 @@ template.innerHTML = /* html */`
  * @csspart label-dark - The dark theme label element.
  * @csspart label-system - The system theme label element.
  *
- * @fires theme-change - Fired when the theme state changes.
+ * @fires tt-theme-change - Fired when the theme state changes.
  *
  * @tagname theme-toggle - This is the default tag name, unless overridden by the `defineCustomElement` method.
  */
@@ -287,7 +287,7 @@ class ThemeToggle extends HTMLElement {
     this.#setThemePreference();
     this.#reflectThemePreference();
 
-    this.dispatchEvent(new CustomEvent('theme-change', {
+    this.dispatchEvent(new CustomEvent('tt-theme-change', {
       bubbles: true,
       composed: true,
       detail: {
@@ -311,14 +311,16 @@ class ThemeToggle extends HTMLElement {
    *
    * https://developers.google.com/web/fundamentals/web-components/best-practices#lazy-properties
    *
-   * @param {keyof ThemeToggle} prop - The property to upgrade.
+   * @param {'noStorage' | 'storageKey'} prop - The property to upgrade.
    */
   #upgradeProperty(prop) {
-    if (Object.prototype.hasOwnProperty.call(this, prop)) {
-      const value = this[prop];
-      delete this[prop];
-      // @ts-ignore
-      this[prop] = value;
+    /** @type {any} */
+    const instance = this;
+
+    if (Object.prototype.hasOwnProperty.call(instance, prop)) {
+      const value = instance[prop];
+      delete instance[prop];
+      instance[prop] = value;
     }
   }
 
@@ -328,7 +330,7 @@ class ThemeToggle extends HTMLElement {
    *
    * @param {string} [elementName='theme-toggle']
    * @example
-   * ThemeToggle.defineCustomElement('theme-change');
+   * ThemeToggle.defineCustomElement('theme-changer');
    */
   static defineCustomElement(elementName = 'theme-toggle') {
     if (typeof window !== 'undefined' && !window.customElements.get(elementName)) {

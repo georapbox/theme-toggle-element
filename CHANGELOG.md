@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v4.0.0 (2023-11-07)
+## v4.0.0 (2023-11-06)
 
 ### Breaking Changes
 
@@ -8,12 +8,13 @@
 - Remove CSS custom properties.
 - Rename CSS Part `button` to `base`.
 - Add a default label next to the icon for each theme.
-- Rename emitted event `theme-toggle:change` to `theme-change`.
+- Rename emitted event `theme-toggle:change` to `tt-theme-change`.
 
 ## Other Changes
 
 - Add new slots for overriding the default content for icons and labels for each theme.
 - Add new CSS Parts for customizing the icon and label for each theme.
+- Generate types declarations for the component.
 
 ## v3.0.0 (2023-03-02)
 

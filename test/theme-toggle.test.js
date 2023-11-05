@@ -196,15 +196,15 @@ describe('theme-toggle', () => {
   });
 
   describe('Events', () => {
-    it('"theme-change" event is fired when clicking the toggle button', async () => {
+    it('"tt-theme-change" event is fired when clicking the toggle button', async () => {
       const el = await fixture(html`<theme-toggle></theme-toggle>`);
       const button = el.shadowRoot.getElementById('theme-toggle');
-      const listener1 = oneEvent(el, 'theme-change');
+      const listener1 = oneEvent(el, 'tt-theme-change');
       button.click(); // light
       expect((await listener1).detail).to.deep.equal({ theme: 'light' });
-      const listener2 = oneEvent(el, 'theme-change');
+      const listener2 = oneEvent(el, 'tt-theme-change');
       button.click(); // dark
-      const listener3 = oneEvent(el, 'theme-change');
+      const listener3 = oneEvent(el, 'tt-theme-change');
       expect((await listener2).detail).to.deep.equal({ theme: 'dark' });
       button.click(); // back to system
       expect((await listener3).detail).to.deep.equal({ theme: 'system' });
