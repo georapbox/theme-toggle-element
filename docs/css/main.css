@@ -136,20 +136,3 @@ theme-toggle.custom-toggle::part(base) {
     background-color: var(--button-hover);
   }
 }
-
-theme-toggle.hide-icons::part(icon) {
-  display: none;
-}
-
-theme-toggle.hide-labels::part(label) {
-  display: inline !important;
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}

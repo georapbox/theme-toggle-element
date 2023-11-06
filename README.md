@@ -77,8 +77,10 @@ theme-toggle::part(base) {
 
 | Name | Reflects | Type | Required | Description |
 | ---- | -------- | ---- | -------- |------------ |
-| `noStorage`<br>*`no-storage`* | ✓ | Boolean | - | If `true`, the theme preference is not saved in `localStorage`. Any previously saved preference is ignored, but is not removed from `localStorage`. |
-| `storageKey`<br>*`storage-key`* | ✓ | String | - | The key to be used in `localStorage` to save the theme preference. If omitted, the default value is `theme-toggle/theme-preference`. If `noStorage` is `true`, this property is ignored. |
+| `noStorage`<br>*`no-storage`* | ✓ | Boolean | - | Indicates whether the theme state should be persisted to local storage. Any previously saved preference is ignored, but is not removed from local storage. |
+| `storageKey`<br>*`storage-key`* | ✓ | String | - | The key to be used in local storage to save the theme preference. If omitted, the default value is `theme-toggle/theme-preference`. If `noStorage` is `true`, this property is ignored. |
+| `noIcon`<br>*`no-icon`* | ✓ | Boolean | - | Indicates whether the icon should be displayed or not. |
+| `noLabel`<br>*`no-label`* | ✓ | Boolean | - | Indicates whether the label should be displayed or not. For accessibility reasons, the label is only visually hidden, but still available to screen readers. |
 
 ### Slots
 
@@ -99,14 +101,14 @@ theme-toggle::part(base) {
 | Name | Description |
 | ---- | ----------- |
 | `base` | The componen'ts base wrapper. In this case this is a native `<button>` element. |
-| `icon` | The icon element, including the light, dark and system theme icons. |
-| `icon-light` | The light theme icon. |
-| `icon-dark` | The dark theme icon. |
-| `icon-system` | The system theme icon. |
-| `label` | The label element, including the light, dark and system theme labels. |
-| `label-light` | The light theme label. |
-| `label-dark` | The dark theme label. |
-| `label-system` | The system theme label. |
+| `icon` | The icon's wrapper element (including the light, dark and system theme icons). |
+| `icon-light` | The light theme icon's wrapper element. |
+| `icon-dark` | The dark theme icon's wrapper element. |
+| `icon-system` | The system theme icon's wrapper element. |
+| `label` | The label's wrapper element (including the light, dark and system theme labels). |
+| `label-light` | The light theme label's wrapper element. |
+| `label-dark` | The dark theme label's wrapper element. |
+| `label-system` | The system theme label's wrapper element. |
 
 ### Events
 

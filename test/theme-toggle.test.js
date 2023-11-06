@@ -44,6 +44,38 @@ describe('theme-toggle', () => {
       await elementUpdated(el);
       expect(el).to.have.attribute('storage-key', 'STORAGE_KEY');
     });
+
+    // no-icon
+    it('reflects attribute "no-icon" to property "noIcon"', async () => {
+      const el = await fixture(html`<theme-toggle no-icon></theme-toggle>`);
+      expect(el.noIcon).to.be.true;
+    });
+
+    it('reflects property "noIcon" to attribute "no-icon"', async () => {
+      const el = await fixture(html`<theme-toggle></theme-toggle>`);
+      el.noIcon = true;
+      await elementUpdated(el);
+      expect(el).to.have.attribute('no-icon');
+      el.noIcon = false;
+      await elementUpdated(el);
+      expect(el).not.to.have.attribute('no-icon');
+    });
+
+    // no-label
+    it('reflects attribute "no-label" to property "noLabel"', async () => {
+      const el = await fixture(html`<theme-toggle no-label></theme-toggle>`);
+      expect(el.noLabel).to.be.true;
+    });
+
+    it('reflects property "noLabel" to attribute "no-label"', async () => {
+      const el = await fixture(html`<theme-toggle></theme-toggle>`);
+      el.noLabel = true;
+      await elementUpdated(el);
+      expect(el).to.have.attribute('no-label');
+      el.noLabel = false;
+      await elementUpdated(el);
+      expect(el).not.to.have.attribute('no-label');
+    });
   });
 
   describe('Slots', () => {

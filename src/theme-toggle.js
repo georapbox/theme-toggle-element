@@ -21,7 +21,7 @@ template.innerHTML = /* html */`
       display: none !important;
     }
 
-    button {
+    .button {
       display: inline-flex;
       justify-content: center;
       align-items: center;
@@ -34,46 +34,63 @@ template.innerHTML = /* html */`
       font-size: inherit;
     }
 
-    .default-icon {
+    .icon--hidden {
+      display: none !important;
+    }
+
+    .label--hidden {
+      display: inline !important;
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    .icon__svg {
       min-width: 1.5em;
       width: 1.5em;
       height: 1.5em;
     }
 
-    .system {
+    .system-path {
       transform: scale(0.4) translateY(-4px);
       transform-origin: center;
     }
   </style>
 
-  <button type="button" part="base" id="theme-toggle">
+  <button type="button" part="base" id="theme-toggle" class="button">
     <slot name="light">
-      <slot name="icon-light" part="icon icon-light">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="default-icon">
+      <slot name="icon-light" part="icon icon-light" class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="icon__svg">
           <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"></path>
         </svg>
       </slot>
-      <slot name="label-light" part="label label-light">Light theme</slot>
+      <slot name="label-light" part="label label-light" class="label">Light theme</slot>
     </slot>
 
     <slot name="dark">
-      <slot name="icon-dark" part="icon icon-dark">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="default-icon">
+      <slot name="icon-dark" part="icon icon-dark" class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="icon__svg">
           <path d="M9.5 2c-1.82 0-3.53.5-5 1.35 2.99 1.73 5 4.95 5 8.65s-2.01 6.92-5 8.65c1.47.85 3.18 1.35 5 1.35 5.52 0 10-4.48 10-10S15.02 2 9.5 2z"></path>
         </svg>
       </slot>
-      <slot name="label-dark" part="label label-dark">Dark theme</slot>
+      <slot name="label-dark" part="label label-dark" class="label">Dark theme</slot>
     </slot>
 
     <slot name="system">
-      <slot name="icon-system" part="icon icon-system">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="default-icon">
+      <slot name="icon-system" part="icon icon-system" class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="icon__svg">
           <path d="M20 3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h3l-1 1v2h12v-2l-1-1h3c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H4V5h16v11z"></path>
-          <path class="system system--light" d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"></path>
-          <path class="system system--dark" d="M9.5 2c-1.82 0-3.53.5-5 1.35 2.99 1.73 5 4.95 5 8.65s-2.01 6.92-5 8.65c1.47.85 3.18 1.35 5 1.35 5.52 0 10-4.48 10-10S15.02 2 9.5 2z"></path>
+          <path class="system-path system-path--light" d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"></path>
+          <path class="system-path system-path--dark" d="M9.5 2c-1.82 0-3.53.5-5 1.35 2.99 1.73 5 4.95 5 8.65s-2.01 6.92-5 8.65c1.47.85 3.18 1.35 5 1.35 5.52 0 10-4.48 10-10S15.02 2 9.5 2z"></path>
         </svg>
       </slot>
-      <slot name="label-system" part="label label-system">System theme</slot>
+      <slot name="label-system" part="label label-system" class="label">System theme</slot>
     </slot>
   </button>
 `;
@@ -84,9 +101,13 @@ template.innerHTML = /* html */`
  *
  * @property {boolean} noStorage - Indicates whether the theme state should be persisted to local storage.
  * @property {string} storageKey - The key used to store the theme state in local storage.
+ * @property {boolean} noIcon - Indicates whether the icon should be hidden.
+ * @property {boolean} noLabel - Indicates whether the label should be visually hidden.
  *
  * @attribute no-storage {boolean} - Indicates whether the theme state should be persisted to local storage.
  * @attribute storage-key {string} - The key used to store the theme state in local storage.
+ * @attribute no-icon {boolean} - Indicates whether the icon should be hidden.
+ * @attribute no-label {boolean} - Indicates whether the label should be visually hidden.
  *
  * @slot light - The light theme slot.
  * @slot icon-light - The light theme icon slot.
@@ -99,14 +120,14 @@ template.innerHTML = /* html */`
  * @slot label-system - The system theme label slot.
  *
  * @csspart base - The base wrapper element.
- * @csspart icon - The icon element.
- * @csspart icon-light - The light theme icon element.
- * @csspart icon-dark - The dark theme icon element.
- * @csspart icon-system - The system theme icon element.
- * @csspart label - The label element.
- * @csspart label-light - The light theme label element.
- * @csspart label-dark - The dark theme label element.
- * @csspart label-system - The system theme label element.
+ * @csspart icon - The icon's wrapper element (including the light, dark and system theme icons).
+ * @csspart icon-light - The light theme icon's wrapper element.
+ * @csspart icon-dark - The dark theme icon's wrapper element.
+ * @csspart icon-system - The system theme icon's wrapper element.
+ * @csspart label - The label's wrapper element (including the light, dark and system theme labels).
+ * @csspart label-light - The light theme label's wrapper element.
+ * @csspart label-dark - The dark theme label's wrapper element.
+ * @csspart label-system - The system theme label's wrapper element.
  *
  * @fires tt-theme-change - Fired when the theme state changes.
  *
@@ -150,6 +171,42 @@ class ThemeToggle extends HTMLElement {
   }
 
   /**
+   * The observed attributes.
+   *
+   * @returns {string[]}
+   */
+  static get observedAttributes() {
+    return ['storage-key', 'no-icon', 'no-label'];
+  }
+
+  /**
+   * Lifecycle method that is called when attributes are changed, added, removed, or replaced.
+   *
+   * @param {string} name - The name of the attribute.
+   * @param {string} oldValue - The old value of the attribute.
+   * @param {string} newValue - The new value of the attribute.
+   */
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'storage-key' && oldValue !== newValue) {
+      this.#theme = this.#getThemePreference();
+      this.#selectedThemeIndex = this.#states.indexOf(this.#theme) || 0;
+      this.#reflectThemePreference();
+    }
+
+    if (name === 'no-icon' && oldValue !== newValue && this.#toggleButton) {
+      this.#toggleButton.querySelectorAll('slot[name^="icon"]').forEach(el => {
+        el.classList.toggle('icon--hidden', this.noIcon);
+      });
+    }
+
+    if (name === 'no-label' && oldValue !== newValue && this.#toggleButton) {
+      this.#toggleButton.querySelectorAll('slot[name^="label"]').forEach(el => {
+        el.classList.toggle('label--hidden', this.noLabel);
+      });
+    }
+  }
+
+  /**
    * Indicates whether the theme state should be persisted to local storage.
    *
    * @type {boolean}
@@ -186,11 +243,51 @@ class ThemeToggle extends HTMLElement {
   }
 
   /**
+   * Indicates whether the icon should be hidden.
+   *
+   * @type {boolean}
+   * @default false
+   * @attribute no-label - Reflects the noIcon property.
+   */
+  get noIcon() {
+    return this.hasAttribute('no-icon');
+  }
+
+  set noIcon(value) {
+    if (value) {
+      this.setAttribute('no-icon', '');
+    } else {
+      this.removeAttribute('no-icon');
+    }
+  }
+
+  /**
+   * Indicates whether the label should be visually hidden.
+   *
+   * @type {boolean}
+   * @default false
+   * @attribute no-label - Reflects the noLabel property.
+   */
+  get noLabel() {
+    return this.hasAttribute('no-label');
+  }
+
+  set noLabel(value) {
+    if (value) {
+      this.setAttribute('no-label', '');
+    } else {
+      this.removeAttribute('no-label');
+    }
+  }
+
+  /**
    * Lifecycle method that is called when the element is added to the DOM.
    */
   connectedCallback() {
     this.#upgradeProperty('noStorage');
     this.#upgradeProperty('storageKey');
+    this.#upgradeProperty('noIcon');
+    this.#upgradeProperty('noLabel');
 
     this.#theme = this.#getThemePreference();
     this.#selectedThemeIndex = this.#states.indexOf(this.#theme) || 0;
@@ -262,8 +359,8 @@ class ThemeToggle extends HTMLElement {
 
     if (this.#theme === 'system') {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      this.#toggleButton?.querySelectorAll('.system').forEach(el => {
-        el.classList.toggle('hidden', prefersDark ? el.classList.contains('system--light') : el.classList.contains('system--dark'));
+      this.#toggleButton?.querySelectorAll('.system-path').forEach(el => {
+        el.classList.toggle('hidden', prefersDark ? el.classList.contains('system-path--light') : el.classList.contains('system-path--dark'));
       });
     }
   }
@@ -311,7 +408,7 @@ class ThemeToggle extends HTMLElement {
    *
    * https://developers.google.com/web/fundamentals/web-components/best-practices#lazy-properties
    *
-   * @param {'noStorage' | 'storageKey'} prop - The property to upgrade.
+   * @param {'noStorage' | 'storageKey' | 'noIcon' | 'noLabel'} prop - The property to upgrade.
    */
   #upgradeProperty(prop) {
     /** @type {any} */

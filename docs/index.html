@@ -15,9 +15,10 @@
   <script src="lib/highlight/highlight.min.js" defer></script>
   <script>document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());</script>
   <script>
+    window.__THEME_TOGGLE_DEMO_STORAGE_KEY__ = 'theme-toggle-demo/theme-preference';
     try {
       // Set theme early to avoid flash of unstyled content.
-      document.documentElement.setAttribute('data-theme', window.localStorage.getItem('theme-toggle/theme-preference') || 'system');
+      document.documentElement.setAttribute('data-theme', window.localStorage.getItem(window.__THEME_TOGGLE_DEMO_STORAGE_KEY__) || 'system');
     } catch (err) {
       // Fail silently...
     }
@@ -42,13 +43,14 @@
 
   <ol>
     <li><a href="#example-1">Default configuration</a></li>
-    <li><a href="#example-2">Custom slots</a></li>
-    <li><a href="#example-3">Show only icons</a></li>
-    <li><a href="#example-4">Show only labels</a></li>
-    <li><a href="#example-5">Custom styling</a></li>
+    <li><a href="#example-2">With custom slots</a></li>
+    <li><a href="#example-3">Without label</a></li>
+    <li><a href="#example-4">Without icon</a></li>
+    <li><a href="#example-5">With custom styling</a></li>
+    <li><a href="#example-6">Listen for theme change event</a></li>
   </ol>
 
-  <h3 id="example-1">Example 1 - Default configuration</h3>
+  <h3 id="example-1"><a href="#example-1">#</a> Example 1 - Default configuration</h3>
   <p>This is the default configuration. The element will use the system theme by default.</p>
 
   <div class="card">
@@ -64,7 +66,7 @@
 
   <a href="#" class="back-top">↑ Back to top</a>
 
-  <h3 id="example-2">Example 2 - Custom slots</h3>
+  <h3 id="example-2"><a href="#example-2">#</a> Example 2 - With custom slots</h3>
   <p>You can customize the slots to display your own labels and icons.</p>
 
   <div class="card">
@@ -94,60 +96,42 @@
 
   <a href="#" class="back-top">↑ Back to top</a>
 
-  <h3 id="example-3">Example 3 - Show only icons</h3>
-  <p>You can only display the icon but also keep the accessibility by visually hiding the labels.</p>
+  <h3 id="example-3"><a href="#example-3">#</a> Example 3 - Without label</h3>
+  <p>
+    You can hide the label using the <code>no-label</code> attribute.
+    For accessibility reasons, the label is visually hidden but still available to screen readers.
+  </p>
 
   <div class="card">
     <browser-window url="https://github.com/georapbox/theme-toggle-element" icon>
-      <theme-toggle class="hide-labels" style="font-size: 3rem;"></theme-toggle>
+      <theme-toggle no-label style="font-size: 3rem;"></theme-toggle>
     </browser-window>
 
     <details open>
       <summary>Source code</summary>
-      <pre><code>&lt;style&gt;
-  theme-toggle::part(label) {
-    display: inline !important; /* Override `display: contents` which is the default for a slot. */
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    padding: 0 !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    clip: rect(0, 0, 0, 0) !important;
-    white-space: nowrap !important;
-    border: 0 !important;
-  }
-&lt;/style&gt;
-
-&lt;theme-toggle&gt;&lt;/theme-toggle&gt;</code></pre>
+      <pre><code>&lt;theme-toggle no-label&gt;&lt;/theme-toggle&gt;</code></pre>
     </details>
   </div>
 
   <a href="#" class="back-top">↑ Back to top</a>
 
-  <h3 id="example-4">Example 4 - Show only labels</h3>
-  <p>You can only display the labels by hiding the icons.</p>
+  <h3 id="example-4"><a href="#example-4">#</a> Example 4 - Without icon</h3>
+  <p>You can hide the icon using the <code>no-icon</code> attribute.</p>
 
   <div class="card">
     <browser-window url="https://github.com/georapbox/theme-toggle-element" icon>
-      <theme-toggle class="hide-icons"></theme-toggle>
+      <theme-toggle no-icon></theme-toggle>
     </browser-window>
 
     <details open>
       <summary>Source code</summary>
-      <pre><code>&lt;style&gt;
-  theme-toggle::part(icon) {
-    display: none;
-  }
-&lt;/style&gt;
-
-&lt;theme-toggle&gt;&lt;/theme-toggle&gt;</code></pre>
+      <pre><code>&lt;theme-toggle no-icon&gt;&lt;/theme-toggle&gt;</code></pre>
     </details>
   </div>
 
   <a href="#" class="back-top">↑ Back to top</a>
 
-  <h3 id="example-5">Example 5 - Custom styling</h3>
+  <h3 id="example-5"><a href="#example-5">#</a> Example 5 - With custom styling</h3>
   <p>
     You can customize the styling of the element by using CSS Parts.
     The following example uses <a href="https://watercss.kognise.dev/" target="_blank" rel="noopener noreferrer">Water.css</a> for styling.
@@ -178,6 +162,34 @@
 &lt;/style&gt;
 
 &lt;theme-toggle class="custom-toggle"&gt;&lt;/theme-toggle&gt;</code></pre>
+    </details>
+  </div>
+
+  <a href="#" class="back-top">↑ Back to top</a>
+
+  <h3 id="example-6"><a href="#example-6">#</a> Example 6 - Listen for theme change event</h3>
+  <p>
+    You can listen for the <code>tt-theme-change</code> event to get notified when the theme changes.
+    The event will contain the newly selected theme in the <code>detail</code> property.
+  </p>
+
+  <div class="card">
+    <browser-window url="https://github.com/georapbox/theme-toggle-element" icon>
+      <theme-toggle id="theme-toggle-6"></theme-toggle>
+      <pre style="margin: 0;"><code class="no-highlight" id="event-placeholder"></code></pre>
+    </browser-window>
+
+    <details open>
+      <summary>Source code</summary>
+      <pre><code>&lt;theme-toggle&gt;&lt;/theme-toggle&gt;
+
+&lt;script&gt;
+  const themeToggle = document.querySelector('theme-toggle');
+
+  themeToggle.addEventListener('tt-theme-change', event => {
+    console.log(event.detail); // => {theme: 'light' | 'dark' | 'system'}
+  });
+&lt;/script&gt;</code></pre>
     </details>
   </div>
 
