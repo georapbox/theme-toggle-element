@@ -1,10 +1,4 @@
-// @ts-check
-
-const DEFAULT_STORAGE_KEY = 'theme-toggle/theme-preference';
-const ROOT_ATTR = 'data-theme';
-const template = document.createElement('template');
-
-template.innerHTML = /* html */`
+let t="theme-toggle/theme-preference",e=document.createElement("template");e.innerHTML=/* html */`
   <style>
     :host {
       display: inline-block;
@@ -93,9 +87,7 @@ template.innerHTML = /* html */`
       <slot name="label-system" part="label label-system" class="label">System theme</slot>
     </slot>
   </button>
-`;
-
-/**
+`;/**
  * @summary A custom element that allows the user to toggle between light, dark and system theme.
  * @extends HTMLElement
  *
@@ -132,276 +124,77 @@ template.innerHTML = /* html */`
  * @fires tt-theme-change - Fired when the theme state changes.
  *
  * @tagname theme-toggle - This is the default tag name, unless overridden by the `defineCustomElement` method.
- */
-class ThemeToggle extends HTMLElement {
-  /**
+ */class s extends HTMLElement{/**
    * Holds the possible theme states.
    * @type {('light' | 'dark' | 'system')[]}
-   */
-  #states = ['light', 'dark', 'system'];
-
-  /**
+   */#t=["light","dark","system"];/**
    * The current theme state.
    * @type {'light' | 'dark' | 'system'}
-   */
-  #theme = 'system';
-
-  /**
+   */#e="system";/**
    * The index of the currently selected theme state.
    * @type {number}
-   */
-  #selectedThemeIndex = 0;
-
-  /**
+   */#s=0;/**
    * The theme toggle button.
    * @type {HTMLElement | null}
-   */
-  #toggleButton = null;
-
-  constructor() {
-    super();
-
-    if (!this.shadowRoot) {
-      /** @type {ShadowRoot} */
-      const shadowRoot = this.attachShadow({ mode: 'open' });
-      shadowRoot.appendChild(template.content.cloneNode(true));
-    }
-
-    this.#toggleButton = this.shadowRoot?.getElementById('theme-toggle') || null;
-  }
-
-  /**
+   */#o=null;constructor(){if(super(),!this.shadowRoot){/** @type {ShadowRoot} */let t=this.attachShadow({mode:"open"});t.appendChild(e.content.cloneNode(!0))}this.#o=this.shadowRoot?.getElementById("theme-toggle")||null}/**
    * The observed attributes.
    *
    * @returns {string[]}
-   */
-  static get observedAttributes() {
-    return ['storage-key', 'no-icon', 'no-label'];
-  }
-
-  /**
+   */static get observedAttributes(){return["storage-key","no-icon","no-label"]}/**
    * Lifecycle method that is called when attributes are changed, added, removed, or replaced.
    *
    * @param {string} name - The name of the attribute.
    * @param {string} oldValue - The old value of the attribute.
    * @param {string} newValue - The new value of the attribute.
-   */
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'storage-key' && oldValue !== newValue) {
-      this.#theme = this.#getThemePreference();
-      this.#selectedThemeIndex = this.#states.indexOf(this.#theme) || 0;
-      this.#reflectThemePreference();
-    }
-
-    if (name === 'no-icon' && oldValue !== newValue && this.#toggleButton) {
-      this.#toggleButton.querySelectorAll('slot[name^="icon"]').forEach(el => {
-        el.classList.toggle('icon--hidden', this.noIcon);
-      });
-    }
-
-    if (name === 'no-label' && oldValue !== newValue && this.#toggleButton) {
-      this.#toggleButton.querySelectorAll('slot[name^="label"]').forEach(el => {
-        el.classList.toggle('label--hidden', this.noLabel);
-      });
-    }
-  }
-
-  /**
+   */attributeChangedCallback(t,e,s){"storage-key"===t&&e!==s&&(this.#e=this.#i(),this.#s=this.#t.indexOf(this.#e)||0,this.#n()),"no-icon"===t&&e!==s&&this.#o&&this.#o.querySelectorAll('slot[name^="icon"]').forEach(t=>{t.classList.toggle("icon--hidden",this.noIcon)}),"no-label"===t&&e!==s&&this.#o&&this.#o.querySelectorAll('slot[name^="label"]').forEach(t=>{t.classList.toggle("label--hidden",this.noLabel)})}/**
    * Indicates whether the theme state should be persisted to local storage.
    *
    * @type {boolean}
    * @default false
    * @attribute no-storage - Reflects the noStorage property.
-   */
-  get noStorage() {
-    return this.hasAttribute('no-storage');
-  }
-
-  set noStorage(value) {
-    if (value) {
-      this.setAttribute('no-storage', '');
-    } else {
-      this.removeAttribute('no-storage');
-    }
-  }
-
-  /**
+   */get noStorage(){return this.hasAttribute("no-storage")}set noStorage(t){t?this.setAttribute("no-storage",""):this.removeAttribute("no-storage")}/**
    * The key used to store the theme state in local storage.
    *
    * @type {string | null}
    * @default 'theme-toggle/theme-preference'
    * @attribute storage-key - Reflects the storageKey property.
-   */
-  get storageKey() {
-    return this.getAttribute('storage-key');
-  }
-
-  set storageKey(value) {
-    if (value != null) {
-      this.setAttribute('storage-key', value);
-    }
-  }
-
-  /**
+   */get storageKey(){return this.getAttribute("storage-key")}set storageKey(t){null!=t&&this.setAttribute("storage-key",t)}/**
    * Indicates whether the icon should be hidden.
    *
    * @type {boolean}
    * @default false
    * @attribute no-label - Reflects the noIcon property.
-   */
-  get noIcon() {
-    return this.hasAttribute('no-icon');
-  }
-
-  set noIcon(value) {
-    if (value) {
-      this.setAttribute('no-icon', '');
-    } else {
-      this.removeAttribute('no-icon');
-    }
-  }
-
-  /**
+   */get noIcon(){return this.hasAttribute("no-icon")}set noIcon(t){t?this.setAttribute("no-icon",""):this.removeAttribute("no-icon")}/**
    * Indicates whether the label should be visually hidden.
    *
    * @type {boolean}
    * @default false
    * @attribute no-label - Reflects the noLabel property.
-   */
-  get noLabel() {
-    return this.hasAttribute('no-label');
-  }
-
-  set noLabel(value) {
-    if (value) {
-      this.setAttribute('no-label', '');
-    } else {
-      this.removeAttribute('no-label');
-    }
-  }
-
-  /**
+   */get noLabel(){return this.hasAttribute("no-label")}set noLabel(t){t?this.setAttribute("no-label",""):this.removeAttribute("no-label")}/**
    * Lifecycle method that is called when the element is added to the DOM.
-   */
-  connectedCallback() {
-    this.#upgradeProperty('noStorage');
-    this.#upgradeProperty('storageKey');
-    this.#upgradeProperty('noIcon');
-    this.#upgradeProperty('noLabel');
-
-    this.#theme = this.#getThemePreference();
-    this.#selectedThemeIndex = this.#states.indexOf(this.#theme) || 0;
-    this.#reflectThemePreference();
-
-    this.#toggleButton?.addEventListener('click', this.#onClick);
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.#onMediaChange);
-  }
-
-  /**
+   */connectedCallback(){this.#l("noStorage"),this.#l("storageKey"),this.#l("noIcon"),this.#l("noLabel"),this.#e=this.#i(),this.#s=this.#t.indexOf(this.#e)||0,this.#n(),this.#o?.addEventListener("click",this.#a),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",this.#h)}/**
    * Lifecycle method that is called when the element is removed from the DOM.
-   */
-  disconnectedCallback() {
-    this.#toggleButton?.removeEventListener('click', this.#onClick);
-    window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.#onMediaChange);
-  }
-
-  /**
+   */disconnectedCallback(){this.#o?.removeEventListener("click",this.#a),window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change",this.#h)}/**
    * Gets the current theme state from local storage.
    *
    * @returns {'light' | 'dark' | 'system'} Current theme state. Defaults to 'system' if no value is found.
-   */
-  #getThemePreference() {
-    if (this.noStorage) {
-      return 'system';
-    }
-
-    /** @type {string} */
-    let valueFromStorage = '';
-
-    try {
-      valueFromStorage = window.localStorage.getItem(this.storageKey || DEFAULT_STORAGE_KEY) || '';
-    } catch {
-      // Fail silently...
-    }
-
-    if (valueFromStorage === 'light' || valueFromStorage === 'dark' || valueFromStorage === 'system') {
-      return valueFromStorage;
-    }
-
-    return 'system';
-  }
-
-  /**
+   */#i(){if(this.noStorage)return"system";/** @type {string} */let e="";try{e=window.localStorage.getItem(this.storageKey||t)||""}catch{// Fail silently...
+}return"light"===e||"dark"===e||"system"===e?e:"system"}/**
    * Save the current theme state to local storage.
-   */
-  #setThemePreference() {
-    if (this.noStorage) {
-      return;
-    }
-
-    try {
-      window.localStorage.setItem(this.storageKey || DEFAULT_STORAGE_KEY, this.#theme);
-    } catch {
-      // Fail silently...
-    }
-  }
-
-  /**
+   */#r(){if(!this.noStorage)try{window.localStorage.setItem(this.storageKey||t,this.#e)}catch{// Fail silently...
+}}/**
    * Reflects the current theme state.
    * This method is called on initialization and when the theme state changes (e.g. via click event).
-   */
-  #reflectThemePreference() {
-    this.#toggleButton?.querySelectorAll(`slot[name="light"], slot[name="dark"], slot[name="system"]`).forEach(el => {
-      el.classList.toggle('hidden', !el.getAttribute('name')?.startsWith(this.#theme));
-    });
-
-    document.documentElement.setAttribute(ROOT_ATTR, this.#theme);
-
-    if (this.#theme === 'system') {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      this.#toggleButton?.querySelectorAll('.system-path').forEach(el => {
-        el.classList.toggle('hidden', prefersDark ? el.classList.contains('system-path--light') : el.classList.contains('system-path--dark'));
-      });
-    }
-  }
-
-  /**
+   */#n(){if(this.#o?.querySelectorAll('slot[name="light"], slot[name="dark"], slot[name="system"]').forEach(t=>{t.classList.toggle("hidden",!t.getAttribute("name")?.startsWith(this.#e))}),document.documentElement.setAttribute("data-theme",this.#e),"system"===this.#e){let t=window.matchMedia("(prefers-color-scheme: dark)").matches;this.#o?.querySelectorAll(".system-path").forEach(e=>{e.classList.toggle("hidden",t?e.classList.contains("system-path--light"):e.classList.contains("system-path--dark"))})}}/**
    * Gets the next theme state.
    *
    * @returns {'light' | 'dark' | 'system'} Next theme state.
-   */
-  #nextTheme() {
-    this.#selectedThemeIndex = (this.#selectedThemeIndex + 1) % this.#states.length;
-    return this.#states[this.#selectedThemeIndex];
-  }
-
-  /**
+   */#c(){return this.#s=(this.#s+1)%this.#t.length,this.#t[this.#s]}/**
    * Handles the click event.
-   */
-  #onClick = () => {
-    this.#theme = this.#nextTheme();
-
-    this.#setThemePreference();
-    this.#reflectThemePreference();
-
-    this.dispatchEvent(new CustomEvent('tt-theme-change', {
-      bubbles: true,
-      composed: true,
-      detail: {
-        theme: this.#theme
-      }
-    }));
-  };
-
-  /**
+   */#a=()=>{this.#e=this.#c(),this.#r(),this.#n(),this.dispatchEvent(new CustomEvent("tt-theme-change",{bubbles:!0,composed:!0,detail:{theme:this.#e}}))};/**
    * Handle media change event.
    * This is only relevant when the theme state is set to 'system'.
-   */
-  #onMediaChange = () => {
-    this.#reflectThemePreference();
-  };
-
-  /**
+   */#h=()=>{this.#n()};/**
    * This is to safe guard against cases where, for instance, a framework may have added the element to the page and set a
    * value on one of its properties, but lazy loaded its definition. Without this guard, the upgraded element would miss that
    * property and the instance property would prevent the class property setter from ever being called.
@@ -409,31 +202,11 @@ class ThemeToggle extends HTMLElement {
    * https://developers.google.com/web/fundamentals/web-components/best-practices#lazy-properties
    *
    * @param {'noStorage' | 'storageKey' | 'noIcon' | 'noLabel'} prop - The property to upgrade.
-   */
-  #upgradeProperty(prop) {
-    /** @type {any} */
-    const instance = this;
-
-    if (Object.prototype.hasOwnProperty.call(instance, prop)) {
-      const value = instance[prop];
-      delete instance[prop];
-      instance[prop] = value;
-    }
-  }
-
-  /**
+   */#l(t){if(Object.prototype.hasOwnProperty.call(this,t)){let e=this[t];delete this[t],this[t]=e}}/**
    * Defines a custom element with the given name.
    * The name must contain a dash (-).
    *
    * @param {string} [elementName='theme-toggle']
    * @example
    * ThemeToggle.defineCustomElement('theme-changer');
-   */
-  static defineCustomElement(elementName = 'theme-toggle') {
-    if (typeof window !== 'undefined' && !window.customElements.get(elementName)) {
-      window.customElements.define(elementName, ThemeToggle);
-    }
-  }
-}
-
-export { ThemeToggle };
+   */static defineCustomElement(t="theme-toggle"){"undefined"==typeof window||window.customElements.get(t)||window.customElements.define(t,s)}}export{s as ThemeToggle};

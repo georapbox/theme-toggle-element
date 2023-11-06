@@ -1,4 +1,9 @@
+:root {
+  scroll-behavior: smooth;
+}
+
 :root[data-theme="light"] {
+  --card-bg-color: #fff;
   --background-body: #fff;
   --background: #efefef;
   --background-alt: #f7f7f7;
@@ -22,6 +27,7 @@
 }
 
 :root[data-theme="dark"] {
+  --card-bg-color: #283647;
   --background-body: #202b38;
   --background: #161f27;
   --background-alt: #1a242f;
@@ -46,15 +52,87 @@
   --select-arrow: svg-load('./assets/select-arrow.svg', fill: #efefef);
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --card-bg-color: #283647;
+  }
+}
+
+.noscript-banner {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--border-radius);
+  background-color: var(--focus);
+  text-align: center;
+}
+
+.component-description p {
+  margin: 0 0 0.5rem 0;
+}
+
+.component-description p:last-child {
+  margin-bottom: 0;
+}
+
+.card {
+  background-color: var(--card-bg-color);
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  margin-bottom: 0.5rem;
+}
+
+.card>details {
+  margin-bottom: 0;
+}
+
+.card details summary {
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.card details summary::marker {
+  content: '';
+}
+
+.back-top {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.875rem;
+}
+
+browser-window {
+  --bw-background: var(--background-alt);
+  text-align: center;
+}
+
+browser-window::part(base) {
+  border-color: var(--border);
+}
+
+browser-window > theme-toggle {
+  margin-block: 2rem;
+}
+
 theme-toggle:not(:defined) {
-  height: 205px;
+  display: none;
 }
 
 theme-toggle {
-  --icon-size: 200px;
-  display: block;
+  font-size: 1.5rem;
 }
 
-theme-toggle::part(button) {
-  padding: 0;
+theme-toggle.custom-toggle::part(base) {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  background-color: var(--button-base);
+  font-size: 1.5rem;
+  transition: background-color var(--animation-duration) ease-in-out;
+}
+
+@media (hover: hover) {
+  theme-toggle.custom-toggle::part(base):hover {
+    background-color: var(--button-hover);
+  }
 }

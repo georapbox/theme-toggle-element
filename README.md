@@ -2,6 +2,7 @@
 [![npm license](https://img.shields.io/npm/l/@georapbox/theme-toggle-element.svg)](https://www.npmjs.com/package/@georapbox/theme-toggle-element)
 
 [demo]: https://georapbox.github.io/theme-toggle-element/
+[demo-example-5]: https://georapbox.github.io/theme-toggle-element#example-5
 [license]: https://georapbox.mit-license.org/@2022
 [changelog]: https://github.com/georapbox/theme-toggle-element/blob/main/CHANGELOG.md
 
@@ -41,12 +42,34 @@ import './node_modules/@georapbox/theme-toggle-element/dist/theme-toggle-defined
 ### Markup
 
 ```html
-<theme-toggle toggle-title="Toggle theme" storage-key="theme-preference"></theme-toggle>
+<theme-toggle storage-key="theme-preference"></theme-toggle>
 ```
 
 ### Style
 
-The component comes with a bare minimum style, but you can override it by using the [CSS Cuspom Properties](#css-custom-properties) or by using the [CSS Parts](#css-parts).
+The component comes with a bare minimum style, but you can override it by using the [CSS Parts](#css-parts) provided. A working example of styling the component can be found [here][demo-example-5]. Below are demonstrated some available parts for styling.
+
+```css
+theme-toggle:not(:defined) {
+  display: none;
+}
+
+theme-toggle::part(base) {
+  border: 1px solid #0d6efd;
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #0d6efd;
+  font-size: 1rem;
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+@media (hover: hover) {
+  theme-toggle::part(base):hover {
+    border-color: #0a58ca;
+    background-color: #0b5ed7;
+  }
+}
+```
 
 ## API
 
@@ -54,39 +77,44 @@ The component comes with a bare minimum style, but you can override it by using 
 
 | Name | Reflects | Type | Required | Description |
 | ---- | -------- | ---- | -------- |------------ |
-| `toggleTitle`<br>*`toggle-title`* | ✓ | String | - | The `title` attribute of the toggle button. If omitted, the button's title changes according to the selected theme. |
-| `noStorage`<br>*`no-storage`* | ✓ | Boolean | - | If `true`, the theme preference is not saved in `localStorage`. Any previously saved preference is ignored, but is not removed from `localStorage`. |
-| `storageKey`<br>*`storage-key`* | ✓ | String | - | The key to be used in `localStorage` to save the theme preference. If omitted, the default value is `theme-toggle/theme-preference`. If `noStorage` is `true`, this property is ignored. |
+| `noStorage`<br>*`no-storage`* | ✓ | Boolean | - | Indicates whether the theme state should be persisted to local storage. Any previously saved preference is ignored, but is not removed from local storage. |
+| `storageKey`<br>*`storage-key`* | ✓ | String | - | The key to be used in local storage to save the theme preference. If omitted, the default value is `theme-toggle/theme-preference`. If `noStorage` is `true`, this property is ignored. |
+| `noIcon`<br>*`no-icon`* | ✓ | Boolean | - | Indicates whether the icon should be displayed or not. |
+| `noLabel`<br>*`no-label`* | ✓ | Boolean | - | Indicates whether the label should be displayed or not. For accessibility reasons, the label is only visually hidden, but still available to screen readers. |
 
 ### Slots
 
 | Name | Description |
 | ---- | ----------- |
-| `light` | Override the default content for the light theme. |
-| `dark` | Override the default content for the dark theme. |
-| `system` | Override the default content for the system theme. |
+| `light` | The content for the light theme (icon and label). |
+| `icon-light` | The content for the light theme icon. |
+| `label-light` | The content for the light theme label. |
+| `dark` | The content for the dark theme (icon and label). |
+| `icon-dark` | The content for the dark theme icon. |
+| `label-dark` | The content for the dark theme label. |
+| `system` | The content for the system theme (icon and label). |
+| `icon-system` | The content for the system theme icon. |
+| `label-system` | The content for the system theme label. |
 
 ### CSS Parts
 
 | Name | Description |
 | ---- | ----------- |
-| `button` | The toggle button. |
-| `icon-light` | The light theme icon. |
-| `icon-dark` | The dark theme icon. |
-| `icon-system` | The system theme icon. |
-
-### CSS Custom Properties
-
-| Name | Default | Description |
-| ---- | ------- | ----------- |
-| `--icon-color` | `currentColor` | The color of the icon. |
-| `--icon-size` | `24px` | The size of the icon (width & height). |
+| `base` | The componen'ts base wrapper. In this case this is a native `<button>` element. |
+| `icon` | The icon's wrapper element (including the light, dark and system theme icons). |
+| `icon-light` | The light theme icon's wrapper element. |
+| `icon-dark` | The dark theme icon's wrapper element. |
+| `icon-system` | The system theme icon's wrapper element. |
+| `label` | The label's wrapper element (including the light, dark and system theme labels). |
+| `label-light` | The light theme label's wrapper element. |
+| `label-dark` | The dark theme label's wrapper element. |
+| `label-system` | The system theme label's wrapper element. |
 
 ### Events
 
 | Name | Description | Event Detail |
 | ---- | ----------- | ------------ |
-| `theme-toggle:change` | Emitted when theme changes by user's interaction. | `{theme: 'light' \| 'dark' \| 'system'}` |
+| `tt-theme-change` | Emitted when theme changes by user's interaction. | `{theme: 'light' \| 'dark' \| 'system'}` |
 
 
 ### Usage example
@@ -118,14 +146,8 @@ The component comes with a bare minimum style, but you can override it by using 
     theme-toggle:not(:defined) {
       display: none;
     }
-    
-    theme-toggle {
-      --icon-size: 32px;
-      --icon-color: currentColor;
-    }
 
-    theme-toggle::part(button) {
-      padding: 0.5rem;
+    theme-toggle::part(base) {
       border: 1px solid var(--body-color);
     }
   </style>
@@ -137,8 +159,8 @@ The component comes with a bare minimum style, but you can override it by using 
 
     ThemeToggle.defineCustomElement();
 
-    documemt.addEventListener('theme-toggle:change', evt => {
-      console.log('theme-toggle:change ->', evt.detail);
+    documemt.addEventListener('tt-theme-change', evt => {
+      console.log('tt-theme-change ->', evt.detail);
     });
   </script>
 ```

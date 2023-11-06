@@ -4,43 +4,201 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
   <title>&lt;theme-toggle&gt;</title>
   <meta name="description" content="A custom element that allows you to toggle between light, dark and system theme.">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="stylesheet" href="lib/highlight/highlight-github.css">
   <link rel="stylesheet" href="css/water.css">
   <link rel="stylesheet" href="css/main.css">
+  <script type="module" src="js/main.js"></script>
+  <script src="lib/highlight/highlight.min.js" defer></script>
+  <script>document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());</script>
   <script>
+    window.__THEME_TOGGLE_DEMO_STORAGE_KEY__ = 'theme-toggle-demo/theme-preference';
     try {
       // Set theme early to avoid flash of unstyled content.
-      document.documentElement.setAttribute('data-theme', window.localStorage.getItem('theme-toggle/theme-preference') || 'system');
+      document.documentElement.setAttribute('data-theme', window.localStorage.getItem(window.__THEME_TOGGLE_DEMO_STORAGE_KEY__) || 'system');
     } catch (err) {
       // Fail silently...
     }
   </script>
 </head>
 <body>
+  <noscript>
+    <div class="noscript-banner">
+      This page requires JavaScript to work properly.
+      Please enable JavaScript in your browser settings.
+    </div>
+  </noscript>
+
   <h1>&lt;theme-toggle&gt;</h1>
 
-  <p>A custom element that allows you to toggle between light, dark and system theme.</p>
+  <div class="component-description">
+    <p>A custom element that allows you to toggle between light, dark and system theme.</p>
+    <p><a href="https://github.com/georapbox/theme-toggle-element" target="_blank" rel="noreferrer noopener">Source code & documentation</a></p>
+  </div>
 
-  <h2>Demo</h2>
+  <h2>Examples</h2>
 
-  <p>Click the icon below to change the page's theme.</p>
+  <ol>
+    <li><a href="#example-1">Default configuration</a></li>
+    <li><a href="#example-2">With custom slots</a></li>
+    <li><a href="#example-3">Without label</a></li>
+    <li><a href="#example-4">Without icon</a></li>
+    <li><a href="#example-5">With custom styling</a></li>
+    <li><a href="#example-6">Listen for theme change event</a></li>
+  </ol>
 
-  <theme-toggle></theme-toggle>
+  <h3 id="example-1"><a href="#example-1">#</a> Example 1 - Default configuration</h3>
+  <p>This is the default configuration. The element will use the system theme by default.</p>
 
-  <pre><code id="console"></code></pre>
+  <div class="card">
+    <browser-window url="https://github.com/georapbox/theme-toggle-element" icon>
+      <theme-toggle></theme-toggle>
+    </browser-window>
 
+    <details open>
+      <summary>Source code</summary>
+      <pre><code>&lt;theme-toggle&gt;&lt;/theme-toggle&gt;</code></pre>
+    </details>
+  </div>
+
+  <a href="#" class="back-top">↑ Back to top</a>
+
+  <h3 id="example-2"><a href="#example-2">#</a> Example 2 - With custom slots</h3>
+  <p>You can customize the slots to display your own labels and icons.</p>
+
+  <div class="card">
+    <browser-window url="https://github.com/georapbox/theme-toggle-element" icon>
+      <theme-toggle>
+        <span slot="icon-light">☀️</span>
+        <span slot="label-light">Light</span>
+        <span slot="icon-dark">🌙</span>
+        <span slot="label-dark">Dark</span>
+        <span slot="icon-system">🌓</span>
+        <span slot="label-system">System</span>
+      </theme-toggle>
+    </browser-window>
+
+    <details open>
+      <summary>Source code</summary>
+      <pre><code>&lt;theme-toggle&gt;
+  &lt;span slot="icon-light"&gt;☀️&lt;/span&gt;
+  &lt;span slot="label-light"&gt;Light&lt;/span&gt;
+  &lt;span slot="icon-dark"&gt;🌙&lt;/span&gt;
+  &lt;span slot="label-dark"&gt;Dark&lt;/span&gt;
+  &lt;span slot="icon-system"&gt;🌓&lt;/span&gt;
+  &lt;span slot="label-system"&gt;System&lt;/span&gt;
+&lt;/theme-toggle&gt;</code></pre>
+    </details>
+  </div>
+
+  <a href="#" class="back-top">↑ Back to top</a>
+
+  <h3 id="example-3"><a href="#example-3">#</a> Example 3 - Without label</h3>
   <p>
-    Source code and documentation can be found in <a href="https://github.com/georapbox/theme-toggle-element" target="_blank" rel="noreferrer noopener">Github repository</a>.
+    You can hide the label using the <code>no-label</code> attribute.
+    For accessibility reasons, the label is visually hidden but still available to screen readers.
   </p>
+
+  <div class="card">
+    <browser-window url="https://github.com/georapbox/theme-toggle-element" icon>
+      <theme-toggle no-label style="font-size: 3rem;"></theme-toggle>
+    </browser-window>
+
+    <details open>
+      <summary>Source code</summary>
+      <pre><code>&lt;theme-toggle no-label&gt;&lt;/theme-toggle&gt;</code></pre>
+    </details>
+  </div>
+
+  <a href="#" class="back-top">↑ Back to top</a>
+
+  <h3 id="example-4"><a href="#example-4">#</a> Example 4 - Without icon</h3>
+  <p>You can hide the icon using the <code>no-icon</code> attribute.</p>
+
+  <div class="card">
+    <browser-window url="https://github.com/georapbox/theme-toggle-element" icon>
+      <theme-toggle no-icon></theme-toggle>
+    </browser-window>
+
+    <details open>
+      <summary>Source code</summary>
+      <pre><code>&lt;theme-toggle no-icon&gt;&lt;/theme-toggle&gt;</code></pre>
+    </details>
+  </div>
+
+  <a href="#" class="back-top">↑ Back to top</a>
+
+  <h3 id="example-5"><a href="#example-5">#</a> Example 5 - With custom styling</h3>
+  <p>
+    You can customize the styling of the element by using CSS Parts.
+    The following example uses <a href="https://watercss.kognise.dev/" target="_blank" rel="noopener noreferrer">Water.css</a> for styling.
+  </p>
+
+  <div class="card">
+    <browser-window url="https://github.com/georapbox/theme-toggle-element" icon>
+      <theme-toggle class="custom-toggle"></theme-toggle>
+    </browser-window>
+
+    <details open>
+      <summary>Source code</summary>
+      <pre><code>&lt;style&gt;
+  theme-toggle.custom-toggle::part(base) {
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    padding: 0.5rem 0.75rem;
+    background-color: var(--button-base);
+    font-size: 1.5rem;
+    transition: background-color var(--animation-duration) ease-in-out;
+  }
+
+  @media (hover: hover) {
+    theme-toggle.custom-toggle::part(base):hover {
+      background-color: var(--button-hover);
+    }
+  }
+&lt;/style&gt;
+
+&lt;theme-toggle class="custom-toggle"&gt;&lt;/theme-toggle&gt;</code></pre>
+    </details>
+  </div>
+
+  <a href="#" class="back-top">↑ Back to top</a>
+
+  <h3 id="example-6"><a href="#example-6">#</a> Example 6 - Listen for theme change event</h3>
+  <p>
+    You can listen for the <code>tt-theme-change</code> event to get notified when the theme changes.
+    The event will contain the newly selected theme in the <code>detail</code> property.
+  </p>
+
+  <div class="card">
+    <browser-window url="https://github.com/georapbox/theme-toggle-element" icon>
+      <theme-toggle id="theme-toggle-6"></theme-toggle>
+      <pre style="margin: 0;"><code class="no-highlight" id="event-placeholder"></code></pre>
+    </browser-window>
+
+    <details open>
+      <summary>Source code</summary>
+      <pre><code>&lt;theme-toggle&gt;&lt;/theme-toggle&gt;
+
+&lt;script&gt;
+  const themeToggle = document.querySelector('theme-toggle');
+
+  themeToggle.addEventListener('tt-theme-change', event => {
+    console.log(event.detail); // => {theme: 'light' | 'dark' | 'system'}
+  });
+&lt;/script&gt;</code></pre>
+    </details>
+  </div>
+
+  <a href="#" class="back-top">↑ Back to top</a>
 
   <h2>License</h2>
 
   <p>
     <a href="https://georapbox.mit-license.org/@2022" target="_blank" rel="noreferrer noopener">The MIT License (MIT)</a>
   </p>
-
-  <script type="module" src="./js/main.js"></script>
 </body>
 </html>

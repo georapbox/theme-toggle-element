@@ -13,25 +13,13 @@ describe('theme-toggle', () => {
       const el = await fixture(html`<theme-toggle></theme-toggle>`);
       await expect(el).to.be.accessible();
     });
-
-    it('"aria-label" attribute on toggle button changes when clicking the the toggle button', async () => {
-      const el = await fixture(html`<theme-toggle></theme-toggle>`);
-      const button = el.shadowRoot.getElementById('theme-toggle');
-      expect(button).to.have.attribute('aria-label', 'system');
-      button.click(); // light
-      expect(button).to.have.attribute('aria-label', 'light');
-      button.click(); // dark
-      expect(button).to.have.attribute('aria-label', 'dark');
-      button.click(); // back to system
-    });
   });
 
-  describe('Properties reflect to attributes', () => {
-    it('reflects property "toggleTitle" to attribute "toggle-title"', async () => {
-      const el = await fixture(html`<theme-toggle></theme-toggle>`);
-      el.toggleTitle = 'TOGGLE_TITLE';
-      await elementUpdated(el);
-      expect(el).to.have.attribute('toggle-title', 'TOGGLE_TITLE');
+  describe('attributes - properties', () => {
+    // no-storage
+    it('reflects attribute "no-storage" to property "noStorage"', async () => {
+      const el = await fixture(html`<theme-toggle no-storage></theme-toggle>`);
+      expect(el.noStorage).to.be.true;
     });
 
     it('reflects property "noStorage" to attribute "no-storage"', async () => {
@@ -39,6 +27,15 @@ describe('theme-toggle', () => {
       el.noStorage = true;
       await elementUpdated(el);
       expect(el).to.have.attribute('no-storage');
+      el.noStorage = false;
+      await elementUpdated(el);
+      expect(el).not.to.have.attribute('no-storage');
+    });
+
+    // storage-key
+    it('reflects attribute "storage-key" to property "storageKey"', async () => {
+      const el = await fixture(html`<theme-toggle storage-key="STORAGE_KEY"></theme-toggle>`);
+      expect(el.storageKey).to.equal('STORAGE_KEY');
     });
 
     it('reflects property "storageKey" to attribute "storage-key"', async () => {
@@ -47,45 +44,49 @@ describe('theme-toggle', () => {
       await elementUpdated(el);
       expect(el).to.have.attribute('storage-key', 'STORAGE_KEY');
     });
-  });
 
-  describe('Attributes reflect to properties', () => {
-    it('reflects attribute "toggle-title" to property "toggleTitle"', async () => {
-      const el = await fixture(html`<theme-toggle toggle-title="TOGGLE_TITLE"></theme-toggle>`);
-      expect(el.toggleTitle).to.equal('TOGGLE_TITLE');
+    // no-icon
+    it('reflects attribute "no-icon" to property "noIcon"', async () => {
+      const el = await fixture(html`<theme-toggle no-icon></theme-toggle>`);
+      expect(el.noIcon).to.be.true;
     });
 
-    it('reflects attribute "no-storage" to property "noStorage"', async () => {
-      const el = await fixture(html`<theme-toggle no-storage></theme-toggle>`);
-      expect(el.noStorage).to.be.true;
+    it('reflects property "noIcon" to attribute "no-icon"', async () => {
+      const el = await fixture(html`<theme-toggle></theme-toggle>`);
+      el.noIcon = true;
+      await elementUpdated(el);
+      expect(el).to.have.attribute('no-icon');
+      el.noIcon = false;
+      await elementUpdated(el);
+      expect(el).not.to.have.attribute('no-icon');
     });
 
-    it('reflects attribute "storage-key" to property "storageKey"', async () => {
-      const el = await fixture(html`<theme-toggle storage-key="STORAGE_KEY"></theme-toggle>`);
-      expect(el.storageKey).to.equal('STORAGE_KEY');
+    // no-label
+    it('reflects attribute "no-label" to property "noLabel"', async () => {
+      const el = await fixture(html`<theme-toggle no-label></theme-toggle>`);
+      expect(el.noLabel).to.be.true;
+    });
+
+    it('reflects property "noLabel" to attribute "no-label"', async () => {
+      const el = await fixture(html`<theme-toggle></theme-toggle>`);
+      el.noLabel = true;
+      await elementUpdated(el);
+      expect(el).to.have.attribute('no-label');
+      el.noLabel = false;
+      await elementUpdated(el);
+      expect(el).not.to.have.attribute('no-label');
     });
   });
 
   describe('Slots', () => {
-    it('has a slot for "system" theme', async () => {
+    // System
+    it('has "system" slot', async () => {
       const el = await fixture(html`<theme-toggle></theme-toggle>`);
       const slot = el.shadowRoot.querySelector('slot[name="system"]');
       expect(slot).to.exist;
     });
 
-    it('has a slot for "light" theme', async () => {
-      const el = await fixture(html`<theme-toggle></theme-toggle>`);
-      const slot = el.shadowRoot.querySelector('slot[name="light"]');
-      expect(slot).to.exist;
-    });
-
-    it('has a slot for "dark" theme', async () => {
-      const el = await fixture(html`<theme-toggle></theme-toggle>`);
-      const slot = el.shadowRoot.querySelector('slot[name="dark"]');
-      expect(slot).to.exist;
-    });
-
-    it('overrides the "system" theme slot content', async () => {
+    it('overrides "system" slot content', async () => {
       const el = await fixture(html`
         <theme-toggle>
           <span slot="system">SYSTEM</span>
@@ -95,7 +96,46 @@ describe('theme-toggle', () => {
       expect(slot.assignedNodes()[0].textContent).to.equal('SYSTEM');
     });
 
-    it('overrides the "light" theme slot content', async () => {
+    it('has "icon-system" slot', async () => {
+      const el = await fixture(html`<theme-toggle></theme-toggle>`);
+      const slot = el.shadowRoot.querySelector('slot[name="icon-system"]');
+      expect(slot).to.exist;
+    });
+
+    it('overrides "icon-system" slot content', async () => {
+      const el = await fixture(html`
+        <theme-toggle>
+          <span slot="icon-system">SYSTEM</span>
+        </theme-toggle>
+      `);
+      const slot = el.shadowRoot.querySelector('slot[name="icon-system"]');
+      expect(slot.assignedNodes()[0].textContent).to.equal('SYSTEM');
+    });
+
+    it('has "label-system" slot', async () => {
+      const el = await fixture(html`<theme-toggle></theme-toggle>`);
+      const slot = el.shadowRoot.querySelector('slot[name="label-system"]');
+      expect(slot).to.exist;
+    });
+
+    it('overrides "label-system" slot content', async () => {
+      const el = await fixture(html`
+        <theme-toggle>
+          <span slot="label-system">SYSTEM</span>
+        </theme-toggle>
+      `);
+      const slot = el.shadowRoot.querySelector('slot[name="label-system"]');
+      expect(slot.assignedNodes()[0].textContent).to.equal('SYSTEM');
+    });
+
+    // Light
+    it('has "light" slot', async () => {
+      const el = await fixture(html`<theme-toggle></theme-toggle>`);
+      const slot = el.shadowRoot.querySelector('slot[name="light"]');
+      expect(slot).to.exist;
+    });
+
+    it('overrides "light" slot content', async () => {
       const el = await fixture(html`
         <theme-toggle>
           <span slot="light">LIGHT</span>
@@ -105,7 +145,46 @@ describe('theme-toggle', () => {
       expect(slot.assignedNodes()[0].textContent).to.equal('LIGHT');
     });
 
-    it('overrides the "dark" theme slot content', async () => {
+    it('has "icon-light" slot', async () => {
+      const el = await fixture(html`<theme-toggle></theme-toggle>`);
+      const slot = el.shadowRoot.querySelector('slot[name="icon-light"]');
+      expect(slot).to.exist;
+    });
+
+    it('overrides "icon-light" slot content', async () => {
+      const el = await fixture(html`
+        <theme-toggle>
+          <span slot="icon-light">LIGHT</span>
+        </theme-toggle>
+      `);
+      const slot = el.shadowRoot.querySelector('slot[name="icon-light"]');
+      expect(slot.assignedNodes()[0].textContent).to.equal('LIGHT');
+    });
+
+    it('has "label-light" slot', async () => {
+      const el = await fixture(html`<theme-toggle></theme-toggle>`);
+      const slot = el.shadowRoot.querySelector('slot[name="label-light"]');
+      expect(slot).to.exist;
+    });
+
+    it('overrides "label-light" slot content', async () => {
+      const el = await fixture(html`
+        <theme-toggle>
+          <span slot="label-light">LIGHT</span>
+        </theme-toggle>
+      `);
+      const slot = el.shadowRoot.querySelector('slot[name="label-light"]');
+      expect(slot.assignedNodes()[0].textContent).to.equal('LIGHT');
+    });
+
+    // Dark
+    it('has "dark" slot', async () => {
+      const el = await fixture(html`<theme-toggle></theme-toggle>`);
+      const slot = el.shadowRoot.querySelector('slot[name="dark"]');
+      expect(slot).to.exist;
+    });
+
+    it('overrides "dark" slot content', async () => {
       const el = await fixture(html`
         <theme-toggle>
           <span slot="dark">DARK</span>
@@ -114,43 +193,57 @@ describe('theme-toggle', () => {
       const slot = el.shadowRoot.querySelector('slot[name="dark"]');
       expect(slot.assignedNodes()[0].textContent).to.equal('DARK');
     });
-  });
 
-  describe('Adds "data-theme" to root element', () => {
-    it('adds "data-theme" attribute to root element of document', async () => {
-      await fixture(html`<theme-toggle></theme-toggle>`);
-      expect(document.documentElement).to.have.attribute('data-theme');
+    it('has "icon-dark" slot', async () => {
+      const el = await fixture(html`<theme-toggle></theme-toggle>`);
+      const slot = el.shadowRoot.querySelector('slot[name="icon-dark"]');
+      expect(slot).to.exist;
     });
 
-    it('"data-theme" attribute on root element changes when clicking the toggle button', async () => {
+    it('overrides "icon-dark" slot content', async () => {
+      const el = await fixture(html`
+        <theme-toggle>
+          <span slot="icon-dark">DARK</span>
+        </theme-toggle>
+      `);
+      const slot = el.shadowRoot.querySelector('slot[name="icon-dark"]');
+      expect(slot.assignedNodes()[0].textContent).to.equal('DARK');
+    });
+
+    it('has "label-dark" slot', async () => {
       const el = await fixture(html`<theme-toggle></theme-toggle>`);
-      const button = el.shadowRoot.getElementById('theme-toggle');
-      expect(document.documentElement).to.have.attribute('data-theme', 'system');
-      button.click(); // light
-      expect(document.documentElement).to.have.attribute('data-theme', 'light');
-      button.click(); // dark
-      expect(document.documentElement).to.have.attribute('data-theme', 'dark');
-      button.click(); // back to system
+      const slot = el.shadowRoot.querySelector('slot[name="label-dark"]');
+      expect(slot).to.exist;
+    });
+
+    it('overrides "label-dark" slot content', async () => {
+      const el = await fixture(html`
+        <theme-toggle>
+          <span slot="label-dark">DARK</span>
+        </theme-toggle>
+      `);
+      const slot = el.shadowRoot.querySelector('slot[name="label-dark"]');
+      expect(slot.assignedNodes()[0].textContent).to.equal('DARK');
     });
   });
 
   describe('Events', () => {
-    it('"theme-toggle:change" event is fired when clicking the toggle button', async () => {
+    it('"tt-theme-change" event is fired when clicking the toggle button', async () => {
       const el = await fixture(html`<theme-toggle></theme-toggle>`);
       const button = el.shadowRoot.getElementById('theme-toggle');
-      const listener1 = oneEvent(el, 'theme-toggle:change');
+      const listener1 = oneEvent(el, 'tt-theme-change');
       button.click(); // light
       expect((await listener1).detail).to.deep.equal({ theme: 'light' });
-      const listener2 = oneEvent(el, 'theme-toggle:change');
+      const listener2 = oneEvent(el, 'tt-theme-change');
       button.click(); // dark
-      const listener3 = oneEvent(el, 'theme-toggle:change');
+      const listener3 = oneEvent(el, 'tt-theme-change');
       expect((await listener2).detail).to.deep.equal({ theme: 'dark' });
       button.click(); // back to system
       expect((await listener3).detail).to.deep.equal({ theme: 'system' });
     });
   });
 
-  describe('Misc', () => {
+  describe('Basic functionality', () => {
     it('changes the button\'s content visibility on click', async () => {
       const el = await fixture(html`<theme-toggle></theme-toggle>`);
       const button = el.shadowRoot.getElementById('theme-toggle');
@@ -171,10 +264,20 @@ describe('theme-toggle', () => {
       button.click(); // back to system
     });
 
-    it('changes toggle button title', async () => {
-      const el = await fixture(html`<theme-toggle toggle-title="Toggle theme"></theme-toggle>`);
+    it('adds "data-theme" attribute to root element of document', async () => {
+      await fixture(html`<theme-toggle></theme-toggle>`);
+      expect(document.documentElement).to.have.attribute('data-theme');
+    });
+
+    it('"data-theme" attribute on root element changes when clicking the toggle button', async () => {
+      const el = await fixture(html`<theme-toggle></theme-toggle>`);
       const button = el.shadowRoot.getElementById('theme-toggle');
-      expect(button).to.have.attribute('title', 'Toggle theme');
+      expect(document.documentElement).to.have.attribute('data-theme', 'system');
+      button.click(); // light
+      expect(document.documentElement).to.have.attribute('data-theme', 'light');
+      button.click(); // dark
+      expect(document.documentElement).to.have.attribute('data-theme', 'dark');
+      button.click(); // back to system
     });
   });
 });
