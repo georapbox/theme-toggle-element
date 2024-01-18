@@ -163,7 +163,7 @@ class ThemeToggle extends HTMLElement {
 
     if (!this.shadowRoot) {
       /** @type {ShadowRoot} */
-      const shadowRoot = this.attachShadow({ mode: 'open' });
+      const shadowRoot = this.attachShadow({ mode: 'open', delegatesFocus: true });
       shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
