@@ -97,6 +97,9 @@ template.innerHTML = /* html */`
 
 /**
  * @summary A custom element that allows the user to toggle between light, dark and system theme.
+ * @documentation https://github.com/georapbox/theme-toggle-element
+ *
+ * @tagname theme-toggle - This is the default tag name, unless overridden by the `defineCustomElement` method.
  * @extends HTMLElement
  *
  * @property {boolean} noStorage - Indicates whether the theme state should be persisted to local storage.
@@ -129,9 +132,7 @@ template.innerHTML = /* html */`
  * @csspart label-dark - The dark theme label's wrapper element.
  * @csspart label-system - The system theme label's wrapper element.
  *
- * @fires tt-theme-change - Fired when the theme state changes.
- *
- * @tagname theme-toggle - This is the default tag name, unless overridden by the `defineCustomElement` method.
+ * @event tt-theme-change - Fired when the theme state changes.
  */
 class ThemeToggle extends HTMLElement {
   /**
