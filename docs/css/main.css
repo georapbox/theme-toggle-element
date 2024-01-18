@@ -88,11 +88,6 @@
 
 .card details summary {
   font-weight: 500;
-  pointer-events: none;
-}
-
-.card details summary::marker {
-  content: '';
 }
 
 .back-top {
