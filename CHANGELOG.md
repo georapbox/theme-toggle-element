@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v4.0.1 (2024-01-18)
+
+- Set `delegateFocus` property to `true` when attaching the shadow root to the host element to delegate focus to the first focusable element in the shadow root.
+- Add `aria-hidden="true"` to the inline SVGs icons to prevent them from being read by screen readers.
+- Update dev dependencies.
+
 ## v4.0.0 (2023-11-06)
 
 > Documentation for `v3.0.0` can be found [here](https://www.npmjs.com/package/@georapbox/theme-toggle-element/v/3.0.0).
