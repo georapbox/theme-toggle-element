@@ -1,4 +1,5 @@
 :root {
+  --body-max-width: 768px;
   scroll-behavior: smooth;
 }
 
@@ -94,6 +95,10 @@
   display: flex;
   justify-content: flex-end;
   font-size: 0.875rem;
+}
+
+.table-of-contents>li {
+  line-height: 1.7;
 }
 
 browser-window {
