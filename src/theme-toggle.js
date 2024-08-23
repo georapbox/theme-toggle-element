@@ -4,64 +4,66 @@ const DEFAULT_STORAGE_KEY = 'theme-toggle/theme-preference';
 const ROOT_ATTR = 'data-theme';
 const template = document.createElement('template');
 
-template.innerHTML = /* html */`
-  <style>
-    :host {
-      display: inline-block;
-      box-sizing: border-box;
-    }
+const styles = /* css */ `
+  :host {
+    display: inline-block;
+    box-sizing: border-box;
+  }
 
-    :host *,
-    :host *:after,
-    :host *:before {
-      box-sizing: inherit;
-    }
+  :host *,
+  :host *:after,
+  :host *:before {
+    box-sizing: inherit;
+  }
 
-    .hidden {
-      display: none !important;
-    }
+  .hidden {
+    display: none !important;
+  }
 
-    .button {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.375rem;
-      border: none;
-      background-color: transparent;
-      color: inherit;
-      cursor: pointer;
-      font-family: inherit;
-      font-size: inherit;
-    }
+  .button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.375rem;
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+  }
 
-    .icon--hidden {
-      display: none !important;
-    }
+  .icon--hidden {
+    display: none !important;
+  }
 
-    .label--hidden {
-      display: inline !important;
-      position: absolute !important;
-      width: 1px !important;
-      height: 1px !important;
-      padding: 0 !important;
-      margin: -1px !important;
-      overflow: hidden !important;
-      clip: rect(0, 0, 0, 0) !important;
-      white-space: nowrap !important;
-      border: 0 !important;
-    }
+  .label--hidden {
+    display: inline !important;
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
 
-    .icon__svg {
-      min-width: 1.5em;
-      width: 1.5em;
-      height: 1.5em;
-    }
+  .icon__svg {
+    min-width: 1.5em;
+    width: 1.5em;
+    height: 1.5em;
+  }
 
-    .system-path {
-      transform: scale(0.4) translateY(-4px);
-      transform-origin: center;
-    }
-  </style>
+  .system-path {
+    transform: scale(0.4) translateY(-4px);
+    transform-origin: center;
+  }
+`;
+
+template.innerHTML = /* html */ `
+  <style>${styles}</style>
 
   <button type="button" part="base" id="theme-toggle" class="button">
     <slot name="light">
@@ -133,6 +135,8 @@ template.innerHTML = /* html */`
  * @csspart label-system - The system theme label's wrapper element.
  *
  * @event tt-theme-change - Fired when the theme state changes.
+ *
+ * @method defineCustomElement - Static method. Defines the custom element with the given name.
  */
 class ThemeToggle extends HTMLElement {
   /**
@@ -361,7 +365,10 @@ class ThemeToggle extends HTMLElement {
     if (this.#theme === 'system') {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       this.#toggleButton?.querySelectorAll('.system-path').forEach(el => {
-        el.classList.toggle('hidden', prefersDark ? el.classList.contains('system-path--light') : el.classList.contains('system-path--dark'));
+        el.classList.toggle(
+          'hidden',
+          prefersDark ? el.classList.contains('system-path--light') : el.classList.contains('system-path--dark')
+        );
       });
     }
   }
@@ -385,13 +392,15 @@ class ThemeToggle extends HTMLElement {
     this.#setThemePreference();
     this.#reflectThemePreference();
 
-    this.dispatchEvent(new CustomEvent('tt-theme-change', {
-      bubbles: true,
-      composed: true,
-      detail: {
-        theme: this.#theme
-      }
-    }));
+    this.dispatchEvent(
+      new CustomEvent('tt-theme-change', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          theme: this.#theme
+        }
+      })
+    );
   };
 
   /**
@@ -428,7 +437,8 @@ class ThemeToggle extends HTMLElement {
    *
    * @param {string} [elementName='theme-toggle']
    * @example
-   * ThemeToggle.defineCustomElement('theme-changer');
+   *
+   * ThemeToggle.defineCustomElement('my-theme-toggle');
    */
   static defineCustomElement(elementName = 'theme-toggle') {
     if (typeof window !== 'undefined' && !window.customElements.get(elementName)) {

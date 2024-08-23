@@ -244,7 +244,7 @@ describe('theme-toggle', () => {
   });
 
   describe('Basic functionality', () => {
-    it('changes the button\'s content visibility on click', async () => {
+    it("changes the button's content visibility on click", async () => {
       const el = await fixture(html`<theme-toggle></theme-toggle>`);
       const button = el.shadowRoot.getElementById('theme-toggle');
       const systemContentSlot = el.shadowRoot.querySelector('slot[name="system"]');

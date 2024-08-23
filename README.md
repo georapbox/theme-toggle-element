@@ -2,8 +2,7 @@
 [![npm license](https://img.shields.io/npm/l/@georapbox/theme-toggle-element.svg)](https://www.npmjs.com/package/@georapbox/theme-toggle-element)
 
 [demo]: https://georapbox.github.io/theme-toggle-element/
-[demo-example-5]: https://georapbox.github.io/theme-toggle-element#example-5
-[license]: https://georapbox.mit-license.org/@2022
+[license]: https://github.com/georapbox/theme-toggle-element/blob/main/LICENSE
 [changelog]: https://github.com/georapbox/theme-toggle-element/blob/main/CHANGELOG.md
 
 # &lt;theme-toggle&gt;
@@ -47,29 +46,7 @@ import './node_modules/@georapbox/theme-toggle-element/dist/theme-toggle-defined
 
 ### Style
 
-The component comes with a bare minimum style, but you can override it by using the [CSS Parts](#css-parts) provided. A working example of styling the component can be found [here][demo-example-5]. Below are demonstrated some available parts for styling.
-
-```css
-theme-toggle:not(:defined) {
-  display: none;
-}
-
-theme-toggle::part(base) {
-  border: 1px solid #0d6efd;
-  border-radius: 0.25rem;
-  padding: 0.5rem 0.75rem;
-  background-color: #0d6efd;
-  font-size: 1rem;
-  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
-}
-
-@media (hover: hover) {
-  theme-toggle::part(base):hover {
-    border-color: #0a58ca;
-    background-color: #0b5ed7;
-  }
-}
-```
+The component comes with a bare minimum style, but you can override it by using the [CSS Parts](#css-parts) provided. See the [usage example](#usage-example) for more details.
 
 ## API
 
@@ -110,6 +87,12 @@ theme-toggle::part(base) {
 | `label-dark` | The dark theme label's wrapper element. |
 | `label-system` | The system theme label's wrapper element. |
 
+### Methods
+
+| Name | Type | Description | Arguments |
+| ---- | ---- | ----------- | --------- |
+| `defineCustomElement` | Static | Defines/registers the custom element with the name provided. If no name is provided, the default name is used. The method checks if the element is already defined, hence will skip trying to redefine it. | `elementName='theme-toggle'` |
+
 ### Events
 
 | Name | Description | Event Detail |
@@ -119,55 +102,110 @@ theme-toggle::part(base) {
 
 ### Usage example
 
+#### HTML
+
 ```html
-  <style>
-    :root {
-      --body-color: #000;
-      --body-bg-color: #fff;
-    }
+<theme-toggle></theme-toggle>
+```
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --body-color: #fff;
-        --body-bg-color: #000;
-      }
-    }
+#### CSS
 
-    :root[data-theme="light"] {
-      --body-color: #000;
-      --body-bg-color: #fff;
-    }
+Customize the component's appearance by using CSS custom properties and CSS parts.
 
-    :root[data-theme="dark"] {
-      --body-color: #fff;
-      --body-bg-color: #000;
-    }
+```css
+:root {
+  --body-color: #000;
+  --body-bg-color: #fff;
+}
 
-    theme-toggle:not(:defined) {
-      display: none;
-    }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --body-color: #fff;
+    --body-bg-color: #000;
+  }
+}
 
-    theme-toggle::part(base) {
-      border: 1px solid var(--body-color);
-    }
-  </style>
+:root[data-theme="light"] {
+  --body-color: #000;
+  --body-bg-color: #fff;
+}
 
-  <theme-toggle></theme-toggle>
+:root[data-theme="dark"] {
+  --body-color: #fff;
+  --body-bg-color: #000;
+}
 
-  <script>
-    import { ThemeToggle } from './node_modules/@georapbox/theme-toggle-element/dist/theme-toggle.js';
+theme-toggle:not(:defined) {
+  display: none;
+}
 
-    ThemeToggle.defineCustomElement();
+theme-toggle::part(base) {
+  border: 1px solid var(--body-color);
+}
+```
 
-    documemt.addEventListener('tt-theme-change', evt => {
-      console.log('tt-theme-change ->', evt.detail);
-    });
-  </script>
+#### JavaScript
+
+```js
+import { ThemeToggle } from './node_modules/@georapbox/theme-toggle-element/dist/theme-toggle.js';
+
+ThemeToggle.defineCustomElement();
+
+documemt.addEventListener('tt-theme-change', evt => {
+  console.log('tt-theme-change ->', evt.detail);
+});
 ```
 
 ## Changelog
 
 For API updates and breaking changes, check the [CHANGELOG][changelog].
+
+## Development setup
+
+### Prerequisites
+
+The project requires `Node.js` and `npm` to be installed on your environment. Preferrably, use [nvm](https://github.com/nvm-sh/nvm) Node Version Manager and use the version of Node.js specified in the `.nvmrc` file by running `nvm use`.
+
+### Install dependencies
+
+Install the project dependencies by running the following command.
+
+```sh
+npm install
+```
+
+### Build for development
+
+Watch for changes and start a development server by running the following command.
+
+```sh
+npm start
+```
+
+### Linting
+
+Lint the code by running the following command.
+
+```sh
+npm run lint
+```
+
+### Testing
+
+Run the tests by running any of the following commands.
+
+```sh
+npm test
+npm run test:watch # watch mode
+```
+
+### Build for production
+
+Create a production build by running the following command.
+
+```sh
+npm run build
+```
 
 ## License
 

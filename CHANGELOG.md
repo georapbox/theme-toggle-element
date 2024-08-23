@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v4.0.2 (2024-08-23)
+
+- Replace parcel with esbuild for bundling.
+- Update ESLint to use flat configuration.
+- Use Prettier for code formatting.
+- Update dev dependencies.
+
 ## v4.0.1 (2024-01-18)
 
 - Set `delegateFocus` property to `true` when attaching the shadow root to the host element to delegate focus to the first focusable element in the shadow root.
