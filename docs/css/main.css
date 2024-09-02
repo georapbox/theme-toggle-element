@@ -108,6 +108,10 @@
   line-height: 1.7;
 }
 
+pre > code {
+  border: 1px solid var(--border);
+}
+
 browser-window {
   --bw-background: var(--background-alt);
   text-align: center;

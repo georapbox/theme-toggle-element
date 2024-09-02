@@ -26,7 +26,7 @@ code.hljs{
 :root,
 :root[data-theme="light"] {
   --text-color: #24292e;
-  --background-color: #f7f7f7;
+  --background-color: #ffffff;
   --keyword-color: #d73a49;
   --title-color: #6f42c1;
   --syntax-color: #005cc5;

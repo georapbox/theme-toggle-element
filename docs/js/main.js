@@ -16,9 +16,5 @@ document.addEventListener('tt-theme-change', evt => {
   }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  window.hljs.highlightAll();
-});
-
 const { ThemeToggle } = await import(componentUrl);
 ThemeToggle.defineCustomElement();
